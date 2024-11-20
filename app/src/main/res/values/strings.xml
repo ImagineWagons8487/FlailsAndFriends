@@ -5,4 +5,7 @@
     <string name="username">Username</string>
     <string name="login">LOGIN</string>
     <string name="create_account">CREATE ACCOUNT</string>
+    <string name="create_an_account">Create an Account:</string>
+    <string name="password_again">Password again</string>
+    <string name="sign_up">Sign Up!</string>
 </resources>
