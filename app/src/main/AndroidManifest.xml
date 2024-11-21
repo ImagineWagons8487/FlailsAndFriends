@@ -13,10 +13,10 @@
         android:theme="@style/Theme.FriendsAndFlails"
         tools:targetApi="31">
         <activity
-            android:name=".LandingPageActivity"
+            android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".LandingPageActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

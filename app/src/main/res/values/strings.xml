@@ -7,5 +7,6 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="create_an_account">Create an Account:</string>
     <string name="password_again">Password again</string>
-    <string name="sign_up">Sign Up!</string>
+    <string name="sign_up">SIGN UP!</string>
+    <string name="back_to_welcome_screen">BACK TO WELCOME SCREEN</string>
 </resources>
