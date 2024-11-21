@@ -8,5 +8,7 @@
     <string name="create_an_account">Create an Account:</string>
     <string name="password_again">Password again</string>
     <string name="sign_up">SIGN UP!</string>
-    <string name="back_to_welcome_screen">BACK TO WELCOME SCREEN</string>
+    <string name="back_to_welcome_screen">BACK TO LOGIN SCREEN</string>
+    <string name="welcome_to_friends_and_flails">WELCOME TO FRIENDS AND FLAILS</string>
+    <string name="tap_anywhere_to_start">TAP ANYWHERE TO START</string>
 </resources>
