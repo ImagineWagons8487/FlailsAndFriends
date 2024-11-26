@@ -9,4 +9,14 @@
     <string name="password_again">Password again</string>
     <string name="sign_up">SIGN UP!</string>
     <string name="back_to_welcome_screen">BACK TO WELCOME SCREEN</string>
+    <string name="get_ready">Get Ready</string>
+    <string name="fight">Fight!</string>
+    <string name="make_your_choice">Make Your Choice</string>
+    <string name="rock">Rock</string>
+    <string name="paper">Paper</string>
+    <string name="scissors">Scissors</string>
+    <string name="welcome_to_flails_n_friends">Welcome To Flails \'N\' Friends!</string>
+    <string name="preference_file_key">projectPreferenceKey</string>
+    <string name="preference_userid_key">preferenceUserIdKey</string>
+    <string name="logged_in">Logged In</string>
 </resources>
