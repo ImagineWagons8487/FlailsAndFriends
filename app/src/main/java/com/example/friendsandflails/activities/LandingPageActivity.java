@@ -33,6 +33,7 @@ public class LandingPageActivity extends AppCompatActivity {
     public static final String TAG = "FLAIL_FRIENDS";
 
     private int loggedInUserId = -1;
+
     private User user;
 
     @Override
