@@ -10,6 +10,8 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.friendsandflails.activities.LandingPageActivity;
+import com.example.friendsandflails.entities.BattleRecord;
+import com.example.friendsandflails.entities.BattleRecordDAO;
 import com.example.friendsandflails.entities.Equipment;
 import com.example.friendsandflails.entities.EquipmentDAO;
 import com.example.friendsandflails.entities.User;
@@ -18,7 +20,7 @@ import com.example.friendsandflails.entities.UserDAO;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Equipment.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, Equipment.class, BattleRecord.class}, version = 3, exportSchema = false)
 public abstract class FlailDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "FlailDatabase";
@@ -29,6 +31,8 @@ public abstract class FlailDatabase extends RoomDatabase {
 
     public static final String EQUIPMENT_TABLE = "equipmentTable";
 
+    public static final String RECORD_TABLE = "recordTable";
+
     private static final int NUMBER_OF_THREADS = 4;
 
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -36,6 +40,8 @@ public abstract class FlailDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract EquipmentDAO equipmentDAO();
+
+    public abstract BattleRecordDAO battleRecordDAO();
 
     static FlailDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

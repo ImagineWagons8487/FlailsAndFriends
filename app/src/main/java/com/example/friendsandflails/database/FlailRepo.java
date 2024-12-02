@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import com.example.friendsandflails.activities.LandingPageActivity;
+import com.example.friendsandflails.entities.BattleRecord;
+import com.example.friendsandflails.entities.BattleRecordDAO;
 import com.example.friendsandflails.entities.Equipment;
 import com.example.friendsandflails.entities.EquipmentDAO;
 import com.example.friendsandflails.entities.User;
@@ -21,6 +23,8 @@ public class FlailRepo {
 
     private EquipmentDAO equipmentDAO;
 
+    private BattleRecordDAO battleRecordDAO;
+
     private ArrayList<User> allUsers;
 
     private static FlailRepo repository;
@@ -29,6 +33,7 @@ public class FlailRepo {
         FlailDatabase db = FlailDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
         this.equipmentDAO = db.equipmentDAO();
+        this.battleRecordDAO = db.battleRecordDAO();
     }
 
     public static FlailRepo getRepository(Application application) {
@@ -66,6 +71,18 @@ public class FlailRepo {
 
     public LiveData<Equipment> getEquipmentById(int equipmentId) {
         return equipmentDAO.getEquipmentById(equipmentId);
+    }
+
+    public void insertBattleRecord(BattleRecord... battleRecord) {
+        FlailDatabase.databaseWriteExecutor.execute(() -> battleRecordDAO.insert(battleRecord));
+    }
+
+    public LiveData<BattleRecord> getBattleRecordByTitle(String title) {
+        return battleRecordDAO.getBattleByTitle(title);
+    }
+
+    public LiveData<BattleRecord> getBattleById(int battleId) {
+        return battleRecordDAO.getBattleById(battleId);
     }
     
 }

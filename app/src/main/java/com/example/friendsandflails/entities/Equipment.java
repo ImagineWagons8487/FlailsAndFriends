@@ -8,8 +8,10 @@ import com.example.friendsandflails.database.FlailDatabase;
 
 @Entity(tableName = FlailDatabase.EQUIPMENT_TABLE)
 public class Equipment {
+
     @PrimaryKey(autoGenerate = true)
     private int id;
+
     private String equipmentName;
     private int buff;
     private String bitmapName;
