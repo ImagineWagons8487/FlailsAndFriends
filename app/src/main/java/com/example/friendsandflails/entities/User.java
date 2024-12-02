@@ -5,8 +5,6 @@ import androidx.room.PrimaryKey;
 
 import com.example.friendsandflails.database.FlailDatabase;
 
-import java.util.List;
-
 @Entity(tableName = FlailDatabase.USER_TABLE)
 public class User {
     @PrimaryKey(autoGenerate = true)
@@ -14,6 +12,7 @@ public class User {
     private String username;
     private String password;
     private boolean isAdmin;
+    private String inventory = "";
 
     public User(String username, String password) {
         this.username = username;
@@ -52,4 +51,12 @@ public class User {
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+
+    public String getInventory() { return inventory; }
+
+    public void setInventory(String inventory) {
+        this.inventory = inventory;
+    }
+
+    public void addToInventory(int equipmentId) { inventory = inventory + " " + equipmentId; }
 }

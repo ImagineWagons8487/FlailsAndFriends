@@ -1,6 +1,5 @@
-package com.example.friendsandflails;
+package com.example.friendsandflails.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,21 +29,21 @@ public class Combat extends AppCompatActivity{
 
         setContentView(binding.getRoot());
 
-        binding.buttonRock.setOnClickListener(new View.OnClickListener() {
+        binding.heavyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 player_selection = CombatRPS.ROCK;
             }
         });
 
-        binding.buttonPaper.setOnClickListener(new View.OnClickListener() {
+        binding.lightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 player_selection = CombatRPS.PAPER;
             }
         });
 
-        binding.buttonScissors.setOnClickListener(new View.OnClickListener() {
+        binding.dodgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 player_selection = CombatRPS.SCISSORS;
