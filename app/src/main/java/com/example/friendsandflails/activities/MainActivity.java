@@ -1,24 +1,12 @@
-package com.example.friendsandflails;
+package com.example.friendsandflails.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityLoginBinding;
-import com.example.friendsandflails.entities.User;
 import com.example.friendsandflails.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

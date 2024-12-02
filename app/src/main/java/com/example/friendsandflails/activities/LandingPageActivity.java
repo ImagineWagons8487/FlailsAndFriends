@@ -1,27 +1,22 @@
-package com.example.friendsandflails;
+package com.example.friendsandflails.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
+import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 
+import com.example.friendsandflails.R;
 import com.example.friendsandflails.database.FlailRepo;
 import com.example.friendsandflails.databinding.ActivityLandingPageBinding;
-import com.example.friendsandflails.databinding.ActivityMainBinding;
 import com.example.friendsandflails.entities.User;
 
 public class LandingPageActivity extends AppCompatActivity {
@@ -38,6 +33,7 @@ public class LandingPageActivity extends AppCompatActivity {
     public static final String TAG = "FLAIL_FRIENDS";
 
     private int loggedInUserId = -1;
+
     private User user;
 
     @Override
@@ -50,11 +46,25 @@ public class LandingPageActivity extends AppCompatActivity {
 
         logInUser(savedInstanceState);
 
-        if(loggedInUserId == -1){
+        if(loggedInUserId == LOGGED_OUT){
             Intent intent = LoginActivity.logInIntentFactory(getApplicationContext());
             startActivity(intent);
         }
         updateSharedPreference();
+
+        binding.fightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(CombatActivity.combatActivityIntentFactory(getApplicationContext()));
+            }
+        });
+
+        binding.loadoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(LoadOutActivity.loadOutActivityIntentFactory(getApplicationContext()));
+            }
+        });
     }
 
     private void logInUser(Bundle savedInstanceState){

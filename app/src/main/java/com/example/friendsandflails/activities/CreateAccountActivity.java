@@ -1,4 +1,4 @@
-package com.example.friendsandflails;
+package com.example.friendsandflails.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,19 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.LiveData;
 
 import com.example.friendsandflails.database.FlailRepo;
 import com.example.friendsandflails.databinding.ActivityCreateAccountBinding;
-import com.example.friendsandflails.databinding.ActivityLoginBinding;
-import com.example.friendsandflails.databinding.ActivityMainBinding;
 import com.example.friendsandflails.entities.User;
-import com.example.friendsandflails.entities.UserDAO;
 
 public class CreateAccountActivity extends AppCompatActivity {
     private ActivityCreateAccountBinding binding;
