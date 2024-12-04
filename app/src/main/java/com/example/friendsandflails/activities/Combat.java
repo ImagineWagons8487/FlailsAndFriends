@@ -11,16 +11,16 @@ import com.example.friendsandflails.databinding.LayoutCombatBinding;
 
 import java.util.Random;
 
-public class Combat extends AppCompatActivity{
+public class Combat extends AppCompatActivity {
     //default values
     private static CombatRPS player_selection = CombatRPS.SCISSORS;
     private static CombatRPS cpu_selection = CombatRPS.ROCK;
-    private final int player_health = 100;
-    private final int cpu_health = 100;
-    private LayoutCombatBinding binding;
+    public final int player_health = 100;
+    public final int cpu_health = 100;
+    public LayoutCombatBinding binding;
 
-    private static boolean player_winner = true;
-    private static boolean match_draw = false;
+    public static boolean player_winner = true;
+    public static boolean match_draw = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,52 +66,52 @@ public class Combat extends AppCompatActivity{
     private CombatRPS getRandomCPUSelection() {
         int random = new Random().nextInt(3);
 
-        switch (random){
-            case 0: return CombatRPS.ROCK;
-            case 1: return CombatRPS.PAPER;
-            case 2: return CombatRPS.SCISSORS;
+        switch (random) {
+            case 0:
+                return CombatRPS.ROCK;
+            case 1:
+                return CombatRPS.PAPER;
+            case 2:
+                return CombatRPS.SCISSORS;
         }
         return CombatRPS.ROCK;
     }
 
     private void checkWinner() { //process that decides who wins the turn
 
-        if(player_selection == cpu_selection){
+        if (player_selection == cpu_selection) {
             match_draw = true;
             return;
         }
 
         //rock beats scissors, loses to paper
-        if(player_selection == CombatRPS.ROCK){
-            if(cpu_selection == CombatRPS.PAPER){
+        if (player_selection == CombatRPS.ROCK) {
+            if (cpu_selection == CombatRPS.PAPER) {
                 player_winner = false;
                 return;
-            }
-            else if(cpu_selection == CombatRPS.SCISSORS){
+            } else if (cpu_selection == CombatRPS.SCISSORS) {
                 player_winner = true;
                 return;
             }
         }
 
         //paper beats rock, loses to scissors
-        if(player_selection == CombatRPS.PAPER){
-            if(cpu_selection == CombatRPS.SCISSORS){
+        if (player_selection == CombatRPS.PAPER) {
+            if (cpu_selection == CombatRPS.SCISSORS) {
                 player_winner = false;
                 return;
-            }
-            else if(cpu_selection == CombatRPS.ROCK){
+            } else if (cpu_selection == CombatRPS.ROCK) {
                 player_winner = true;
                 return;
             }
         }
 
         //scissors beats paper, loses to rock
-        if(player_selection == CombatRPS.SCISSORS){
-            if(cpu_selection == CombatRPS.ROCK){
+        if (player_selection == CombatRPS.SCISSORS) {
+            if (cpu_selection == CombatRPS.ROCK) {
                 player_winner = false;
                 return;
-            }
-            else if(cpu_selection == CombatRPS.PAPER){
+            } else if (cpu_selection == CombatRPS.PAPER) {
                 player_winner = true;
                 return;
             }
@@ -122,24 +122,23 @@ public class Combat extends AppCompatActivity{
     }
 
     //Turn results and damage
-    private void turnDamage(){
+    private void turnDamage() {
         System.out.println("Player selected: " + player_selection + "\n");
         System.out.println("CPU selected: " + cpu_selection + "\n");
 
         String result;
 
-        if(match_draw){
+        if (match_draw) {
             result = "Same choice! Your attacks clashed!";
-        }
-        else{
-            if(player_winner) {
+            System.out.println(result);
+        } else {
+            if (player_winner) {
                 result = "Your attack was successful!";
                 //TODO: Add calculation for damage amount based on player's weapons and enemy's gear (if we have those)
                 System.out.println(result);
                 System.out.println("You dealt " + damageCalc() + " damage!");
                 System.out.println("Health: " + healthLeft(cpu_health));
-            }
-            else {
+            } else {
                 result = "Your attack failed!\nYour opponent counterattacks!";
                 //TODO: Add calculation for damage amount based on enemy's weapons and player's gear (if we have those)
                 System.out.println(result);
@@ -149,24 +148,16 @@ public class Combat extends AppCompatActivity{
         }
     }
 
-    private int damageCalc(){
-        int defaultDamage = 20;
+    private int damageCalc() {
+        int defaultDamage;
+        defaultDamage = 20;
         //TODO: Add calculation based on equipment (again, if we have those)
 
         return defaultDamage;
     }
 
-    private int healthLeft(int health){
+    private int healthLeft(int health) {
         return health - damageCalc();
-    }
-    //reset values after the result is displayed to user
-    private void resetValues() {
-        player_selection = CombatRPS.SCISSORS;
-        cpu_selection = CombatRPS.ROCK;
-
-        player_winner = true;
-        match_draw = false;
-        Log.e(MainActivity.class.getName(), "values reset successful");
     }
 }
 
