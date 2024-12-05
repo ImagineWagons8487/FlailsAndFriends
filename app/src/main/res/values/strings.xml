@@ -19,4 +19,16 @@
     <string name="preference_file_key">projectPreferenceKey</string>
     <string name="preference_userid_key">preferenceUserIdKey</string>
     <string name="logged_in">Logged In</string>
+    <string name="equipment_name">Equipment Name</string>
+    <string name="name">Name</string>
+    <string name="image_source">Image</string>
+    <string name="buff">Buff</string>
+    <string name="equipment_name_here">Equipment Name Here</string>
+    <string name="enter_equipment_name">Enter Equipment Name</string>
+    <string name="image_path">Image Path</string>
+    <string name="enter_image_path">Enter Image Path</string>
+    <string name="enter_buff_amount">Enter Buff Amount</string>
+    <string name="add_to_database">Add To Database</string>
+    <string name="add_equipment">Add Equipment</string>
+    <string name="load_out">Load-out</string>
 </resources>

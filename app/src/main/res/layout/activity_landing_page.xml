@@ -11,7 +11,7 @@
         android:id="@+id/fightButton"
         android:layout_width="128dp"
         android:layout_height="64dp"
-        android:text="Fight!"
+        android:text="@string/fight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.943"
@@ -23,7 +23,7 @@
         android:id="@+id/loadout_button"
         android:layout_width="128dp"
         android:layout_height="64dp"
-        android:text="Loadout"
+        android:text="@string/load_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
@@ -31,40 +31,98 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
-    <TextView
-        android:id="@+id/nameTextField"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="408dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="84dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/bitmapName"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextField"
-        app:layout_constraintVertical_bias="0.082" />
+        <TextView
+            android:id="@+id/adminTitleTextView"
+            android:layout_width="275dp"
+            android:layout_height="49dp"
+            android:text="@string/add_equipment"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/buffTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0-3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bitmapName"
-        app:layout_constraintVertical_bias="0.116" />
+        <TextView
+            android:id="@+id/equipmentNameLabelTextView"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/name"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/equipmentNameInputEditText"
+            android:layout_width="227dp"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:hint="@string/enter_equipment_name"
+            android:inputType="textAutoComplete"
+            android:padding="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/equipmentNameLabelTextView"
+            app:layout_constraintStart_toEndOf="@id/equipmentNameLabelTextView" />
+
+        <TextView
+            android:id="@+id/imagePathLabelTextView"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/image_path"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/equipmentNameLabelTextView" />
+
+        <EditText
+            android:id="@+id/imagePathInputEditText"
+            android:layout_width="227dp"
+            android:layout_height="40dp"
+            android:hint="@string/enter_image_path"
+            android:inputType="textAutoComplete"
+            android:padding="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/imagePathLabelTextView"
+            app:layout_constraintStart_toEndOf="@id/imagePathLabelTextView" />
+
+        <TextView
+            android:id="@+id/buffLabelTextView"
+            android:layout_width="100dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/buff"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagePathLabelTextView" />
+
+        <EditText
+            android:id="@+id/buffInputEditText"
+            android:layout_width="227dp"
+            android:layout_height="40dp"
+            android:hint="@string/enter_buff_amount"
+            android:inputType="number|numberDecimal"
+            android:padding="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/buffLabelTextView"
+            app:layout_constraintStart_toEndOf="@id/buffLabelTextView" />
+
+        <Button
+            android:id="@+id/adminAddEquipmentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_database"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
