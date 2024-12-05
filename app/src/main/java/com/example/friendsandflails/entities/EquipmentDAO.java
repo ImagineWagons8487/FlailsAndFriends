@@ -29,5 +29,5 @@ public interface EquipmentDAO {
     LiveData<Equipment> getEquipmentByName(String equipmentName);
 
     @Query("SELECT * from " + FlailDatabase.EQUIPMENT_TABLE + " WHERE id == :equipmentId")
-    LiveData<Equipment> getEquipmentById(int equipmentId);
+    LiveData<List<Equipment>> getEquipmentById(int equipmentId);
 }

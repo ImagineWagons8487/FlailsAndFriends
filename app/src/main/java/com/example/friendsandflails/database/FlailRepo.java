@@ -14,6 +14,7 @@ import com.example.friendsandflails.entities.User;
 import com.example.friendsandflails.entities.UserDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -69,7 +70,7 @@ public class FlailRepo {
         return equipmentDAO.getEquipmentByName(name);
     }
 
-    public LiveData<Equipment> getEquipmentById(int equipmentId) {
+    public LiveData<List<Equipment>> getEquipmentById(int equipmentId) {
         return equipmentDAO.getEquipmentById(equipmentId);
     }
 
