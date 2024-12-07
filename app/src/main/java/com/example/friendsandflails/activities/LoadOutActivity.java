@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.friendsandflails.R;
+import com.example.friendsandflails.ViewHolders.InvSlotAdapter;
 import com.example.friendsandflails.database.FlailRepo;
 import com.example.friendsandflails.databinding.ActivityLoadoutBinding;
 import com.example.friendsandflails.entities.User;
@@ -42,7 +43,7 @@ public class LoadOutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         int totalItems = 35;
-        com.example.friendsandflails.adapter.InvSlotAdapter adapter = new com.example.friendsandflails.adapter.InvSlotAdapter(totalItems);
+        com.example.friendsandflails.ViewHolders.InvSlotAdapter adapter = new com.example.friendsandflails.ViewHolders.InvSlotAdapter(totalItems);
         recyclerView.setAdapter(adapter);
     }
 
