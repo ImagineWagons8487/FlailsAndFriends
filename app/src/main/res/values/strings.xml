@@ -35,4 +35,5 @@
     <string name="make_admin">Make Admin</string>
     <string name="thanos_snap_user">Thanos Snap User</string>
     <string name="admin">Admin</string>
+    <string name="switch_admin_status">Switch Admin Status</string>
 </resources>
