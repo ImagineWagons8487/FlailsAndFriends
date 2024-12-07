@@ -31,4 +31,8 @@
     <string name="add_to_database">Add To Database</string>
     <string name="add_equipment">Add Equipment</string>
     <string name="load_out">Load-out</string>
+    <string name="enter_username">Enter username</string>
+    <string name="make_admin">Make Admin</string>
+    <string name="thanos_snap_user">Thanos Snap User</string>
+    <string name="admin">Admin</string>
 </resources>

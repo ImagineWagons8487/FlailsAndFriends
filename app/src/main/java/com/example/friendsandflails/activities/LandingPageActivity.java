@@ -65,6 +65,13 @@ public class LandingPageActivity extends AppCompatActivity {
                 startActivity(LoadOutActivity.loadOutActivityIntentFactory(getApplicationContext()));
             }
         });
+
+        binding.adminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(AdminActivity.adminActivityIntentFactory(getApplicationContext(), loggedInUserId));
+            }
+        });
     }
 
     private void logInUser(Bundle savedInstanceState){
