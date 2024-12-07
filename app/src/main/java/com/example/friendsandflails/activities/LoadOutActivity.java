@@ -29,7 +29,6 @@ public class LoadOutActivity extends AppCompatActivity {
 
     private User user;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //private static final String CHARACTER_SELECT_USER_ID = "com.example.friendsandflails.CHARACTER_SELECT_USER_ID";
