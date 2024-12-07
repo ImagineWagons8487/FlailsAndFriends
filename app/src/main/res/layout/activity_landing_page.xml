@@ -8,6 +8,19 @@
     tools:context=".activities.LandingPageActivity">
 
     <Button
+        android:layout_width="128dp"
+        android:layout_height="64dp"
+        android:id="@+id/characterSelectButton"
+        android:text="Select Character"
+        app:layout_constraintBottom_toTopOf="@+id/loadout_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.99"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
         android:id="@+id/fightButton"
         android:layout_width="128dp"
         android:layout_height="64dp"

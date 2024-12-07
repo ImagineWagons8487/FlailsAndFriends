@@ -14,10 +14,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
+import com.example.friendsandflails.activities.CharacterSelectActivity;
 import com.example.friendsandflails.R;
 import com.example.friendsandflails.database.FlailRepo;
 import com.example.friendsandflails.databinding.ActivityLandingPageBinding;
 import com.example.friendsandflails.entities.User;
+
+import kotlin.text.CharCategory;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String LANDING_PAGE_USER_ID = "com.example.friendsandflails.LANDING_PAGE_USER_ID";
@@ -62,7 +65,14 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.loadoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(LoadOutActivity.loadOutActivityIntentFactory(getApplicationContext()));
+                startActivity(LoadOutActivity.loadOutActivityIntentFactory(getApplicationContext(), loggedInUserId));
+            }
+        });
+
+        binding.characterSelectButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId));
             }
         });
     }
