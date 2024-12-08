@@ -14,13 +14,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
-import edu.csumb.flailsandfriends.activities.CharacterSelectActivity;
 import edu.csumb.flailsandfriends.R;
 import edu.csumb.flailsandfriends.database.FlailRepo;
 import edu.csumb.flailsandfriends.databinding.ActivityLandingPageBinding;
 import edu.csumb.flailsandfriends.entities.User;
-
-import kotlin.text.CharCategory;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String LANDING_PAGE_USER_ID = "edu.csumb.flailsandfriends.LANDING_PAGE_USER_ID";

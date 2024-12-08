@@ -51,7 +51,7 @@ public class LoadOutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         int totalItems = 35;
-        edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter adapter = new edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter(totalItems);
+        InvSlotAdapter adapter = new InvSlotAdapter(totalItems);
         recyclerView.setAdapter(adapter);
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {
