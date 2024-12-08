@@ -1,4 +1,4 @@
-package com.example.friendsandflails;
+package edu.csumb.flailsandfriends;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.friendsandflails", appContext.getPackageName());
+        assertEquals("edu.csumb.flailsandfriends", appContext.getPackageName());
     }
 }

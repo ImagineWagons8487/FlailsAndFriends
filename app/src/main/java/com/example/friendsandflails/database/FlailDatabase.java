@@ -1,4 +1,4 @@
-package com.example.friendsandflails.database;
+package edu.csumb.flailsandfriends.database;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,13 +9,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.friendsandflails.activities.LandingPageActivity;
-import com.example.friendsandflails.entities.BattleRecord;
-import com.example.friendsandflails.entities.BattleRecordDAO;
-import com.example.friendsandflails.entities.Equipment;
-import com.example.friendsandflails.entities.EquipmentDAO;
-import com.example.friendsandflails.entities.User;
-import com.example.friendsandflails.entities.UserDAO;
+import edu.csumb.flailsandfriends.activities.LandingPageActivity;
+import edu.csumb.flailsandfriends.entities.BattleRecord;
+import edu.csumb.flailsandfriends.entities.BattleRecordDAO;
+import edu.csumb.flailsandfriends.entities.Equipment;
+import edu.csumb.flailsandfriends.entities.EquipmentDAO;
+import edu.csumb.flailsandfriends.entities.User;
+import edu.csumb.flailsandfriends.entities.UserDAO;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

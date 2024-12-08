@@ -1,4 +1,4 @@
-package com.example.friendsandflails.ViewHolders;
+package edu.csumb.flailsandfriends.ViewHolders;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.friendsandflails.R;
+import edu.csumb.flailsandfriends.R;
 
 public class InvSlotViewHolder extends RecyclerView.ViewHolder{
 

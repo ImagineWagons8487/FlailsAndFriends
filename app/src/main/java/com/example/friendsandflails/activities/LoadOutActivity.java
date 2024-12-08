@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.friendsandflails.R;
-import com.example.friendsandflails.ViewHolders.InvSlotAdapter;
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityLoadoutBinding;
-import com.example.friendsandflails.entities.User;
+import edu.csumb.flailsandfriends.R;
+import edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityLoadoutBinding;
+import edu.csumb.flailsandfriends.entities.User;
 
 public class LoadOutActivity extends AppCompatActivity {
 
-    private static final String LOADOUT_USER_ID = "com.example.friendsandflails.activities.LOADOUT_USER_ID";
+    private static final String LOADOUT_USER_ID = "edu.csumb.flailsandfriends.activities.LOADOUT_USER_ID";
 
     private static final int LOGGED_OUT = -1;
 
@@ -31,7 +31,7 @@ public class LoadOutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //private static final String CHARACTER_SELECT_USER_ID = "com.example.friendsandflails.CHARACTER_SELECT_USER_ID";
+        //private static final String CHARACTER_SELECT_USER_ID = "edu.csumb.flailsandfriends.CHARACTER_SELECT_USER_ID";
         super.onCreate(savedInstanceState);
         binding = ActivityLoadoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -51,7 +51,7 @@ public class LoadOutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         int totalItems = 35;
-        com.example.friendsandflails.ViewHolders.InvSlotAdapter adapter = new com.example.friendsandflails.ViewHolders.InvSlotAdapter(totalItems);
+        edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter adapter = new edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter(totalItems);
         recyclerView.setAdapter(adapter);
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {

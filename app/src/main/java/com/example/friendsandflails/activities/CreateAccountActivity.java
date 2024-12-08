@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityCreateAccountBinding;
-import com.example.friendsandflails.entities.User;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityCreateAccountBinding;
+import edu.csumb.flailsandfriends.entities.User;
 
 public class CreateAccountActivity extends AppCompatActivity {
     private ActivityCreateAccountBinding binding;

@@ -1,4 +1,4 @@
-package com.example.friendsandflails.ViewHolders;
+package edu.csumb.flailsandfriends.ViewHolders;
 
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.friendsandflails.R;
-import com.example.friendsandflails.entities.Equipment;
+import edu.csumb.flailsandfriends.R;
+import edu.csumb.flailsandfriends.entities.Equipment;
 
-public class InvSlotAdapter extends RecyclerView.Adapter<com.example.friendsandflails.ViewHolders.InvSlotAdapter.ViewHolder> {
+public class InvSlotAdapter extends RecyclerView.Adapter<edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter.ViewHolder> {
 
     private int itemCount;
 
@@ -29,7 +29,7 @@ public class InvSlotAdapter extends RecyclerView.Adapter<com.example.friendsandf
     }
 
     @Override
-    public com.example.friendsandflails.ViewHolders.InvSlotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public edu.csumb.flailsandfriends.ViewHolders.InvSlotAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inv_slot_recycler_item, parent, false);
         return new ViewHolder(view);
     }

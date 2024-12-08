@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.friendsandflails.databinding.LayoutCombatBinding;
+import edu.csumb.flailsandfriends.databinding.LayoutCombatBinding;
 
 import java.util.Random;
 

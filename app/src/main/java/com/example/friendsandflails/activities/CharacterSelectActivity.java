@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 
 import android.content.Context;
@@ -8,12 +8,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityCharacterSelectBinding;
-import com.example.friendsandflails.entities.User;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityCharacterSelectBinding;
+import edu.csumb.flailsandfriends.entities.User;
 
 public class CharacterSelectActivity extends AppCompatActivity {
-    private static final String CHARACTER_SELECT_USER_ID = "com.example.friendsandflails.CHARACTER_SELECT_USER_ID";
+    private static final String CHARACTER_SELECT_USER_ID = "edu.csumb.flailsandfriends.CHARACTER_SELECT_USER_ID";
 
     private static final int LOGGED_OUT = -1;
 

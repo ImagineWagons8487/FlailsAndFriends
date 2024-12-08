@@ -1,9 +1,9 @@
-package com.example.friendsandflails.entities;
+package edu.csumb.flailsandfriends.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.friendsandflails.database.FlailDatabase;
+import edu.csumb.flailsandfriends.database.FlailDatabase;
 
 @Entity(tableName = FlailDatabase.USER_TABLE)
 public class User {

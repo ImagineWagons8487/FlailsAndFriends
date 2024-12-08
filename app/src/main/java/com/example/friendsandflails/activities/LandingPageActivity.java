@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,18 +14,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
-import com.example.friendsandflails.activities.CharacterSelectActivity;
-import com.example.friendsandflails.R;
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityLandingPageBinding;
-import com.example.friendsandflails.entities.User;
+import edu.csumb.flailsandfriends.activities.CharacterSelectActivity;
+import edu.csumb.flailsandfriends.R;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityLandingPageBinding;
+import edu.csumb.flailsandfriends.entities.User;
 
 import kotlin.text.CharCategory;
 
 public class LandingPageActivity extends AppCompatActivity {
-    private static final String LANDING_PAGE_USER_ID = "com.example.friendsandflails.LANDING_PAGE_USER_ID";
+    private static final String LANDING_PAGE_USER_ID = "edu.csumb.flailsandfriends.LANDING_PAGE_USER_ID";
 
-    static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.friendsandflails.SAVED_INSTANCE_STATE_USERID_KEY";
+    static final String SAVED_INSTANCE_STATE_USERID_KEY = "edu.csumb.flailsandfriends.SAVED_INSTANCE_STATE_USERID_KEY";
 
     private static final int LOGGED_OUT = -1;
 

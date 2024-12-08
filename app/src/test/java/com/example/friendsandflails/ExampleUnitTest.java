@@ -1,4 +1,4 @@
-package com.example.friendsandflails;
+package edu.csumb.flailsandfriends;
 
 import org.junit.Test;
 

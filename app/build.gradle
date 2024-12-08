@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.friendsandflails'
+    namespace 'edu.csumb.flailsandfriends'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.friendsandflails"
+        applicationId "edu.csumb.flailsandfriends"
         minSdk 27
         targetSdk 34
         versionCode 1

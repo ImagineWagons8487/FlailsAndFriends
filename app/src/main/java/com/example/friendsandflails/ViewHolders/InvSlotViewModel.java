@@ -1,12 +1,12 @@
-package com.example.friendsandflails.ViewHolders;
+package edu.csumb.flailsandfriends.ViewHolders;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.entities.Equipment;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.entities.Equipment;
 
 import java.util.List;
 
