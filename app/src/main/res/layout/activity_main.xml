@@ -12,10 +12,11 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/screenshot_2024_12_04_at_12_18_43_pm"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-3dp" />
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/screenshot_2024_12_04_at_12_18_43_pm" />
 
     <Button
         android:id="@+id/loginButton"
