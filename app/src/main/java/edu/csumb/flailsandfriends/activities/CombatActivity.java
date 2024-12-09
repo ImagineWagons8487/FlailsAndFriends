@@ -1,6 +1,5 @@
 package edu.csumb.flailsandfriends.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +8,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.csumb.flailsandfriends.R;
 import edu.csumb.flailsandfriends.database.FlailRepo;
 import edu.csumb.flailsandfriends.databinding.ActivityCombatBinding;
 
 import edu.csumb.flailsandfriends.entities.User;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class CombatActivity extends AppCompatActivity {
 
@@ -90,9 +87,9 @@ public class CombatActivity extends AppCompatActivity {
         // related to the process is commented out for now
         //TODO: Add way for it to end the game when
         // health reaches 0, preferably WITHOUT exploding.
-        /*if(!battleState(fight)){
+        if(player_health <= 0 || cpu_health <= 0){
             endMatch();
-        }*/
+        }
     }
 
     //function returns random value
@@ -219,14 +216,14 @@ public class CombatActivity extends AppCompatActivity {
             System.out.println("You Win!\n");
             //TODO: Add a way for it to send results to battle log
 
-            rematch();
+            startActivity(PostMatchActivity.postMatchIntentFactory(getApplicationContext()));
         }
 
         if(player_health <= 0){
             System.out.println("You Lose!");
             //TODO: Add a way for it to send results to battle log
 
-            rematch();
+            startActivity(PostMatchActivityLose.postMatchLoseIntentFactory(getApplicationContext()));
         }
     }
 
@@ -237,26 +234,7 @@ public class CombatActivity extends AppCompatActivity {
         player_winner = true;
     }
 
-    public void rematch(){
-        Scanner scanner = new Scanner(System.in);
-        String playerInput = scanner.nextLine().toUpperCase();
 
-        if(playerInput.equals("Y")){
-            player_health = 100;
-            cpu_health = 100;
-        }
-
-        if(playerInput.equals("N")){
-            Intent intent = LoginActivity.logInIntentFactory(getApplicationContext());
-            startActivity(intent); //Probably not the right way to do this but
-        }
-
-        if(!playerInput.equals("Y") && !playerInput.equals("N")){
-            System.out.println("Invalid input, try again");
-            playerInput = scanner.nextLine().toUpperCase();
-        }
-        scanner.close();
-    }
 
 
     static Intent combatActivityIntentFactory(Context context) {
