@@ -20,12 +20,14 @@ public class CombatActivity extends AppCompatActivity {
     private static CombatRPS player_selection = CombatRPS.SCISSORS;
     private static CombatRPS cpu_selection = CombatRPS.ROCK;
 
+
 //    public int player_health = 100;
 //    public int cpu_health = 100;
 
     // Flags for match outcome
     public static boolean player_winner = true;
     public static boolean match_draw = false;
+    public static boolean fight = true;
 
     private ActivityCombatBinding binding;
 
@@ -34,7 +36,6 @@ public class CombatActivity extends AppCompatActivity {
     private User user;
     // Instance of the new CombatGame class to handle game logic
     private CombatGame combatGame = new CombatGame();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +46,6 @@ public class CombatActivity extends AppCompatActivity {
         // Initialize repository
         repository = FlailRepo.getRepository(getApplication());
 
-//        binding.lightButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                verifyUser();
-//            }
-//        });
         // Set button listeners for user actions
         binding.heavyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +77,7 @@ public class CombatActivity extends AppCompatActivity {
     private void proceed() {
         //get random cpu selection
         cpu_selection = getRandomCPUSelection();
-        //get winner based on cpu_selection and user_selection
+        //get winner based on cpu_selection and player_selection
         checkWinner();
         // Handle damage and check for game-over state
         turnDamage(player_winner);
@@ -93,11 +88,11 @@ public class CombatActivity extends AppCompatActivity {
         int random = new Random().nextInt(3);
 
         switch (random){
-            case 0: return CombatRPS.ROCK;
-            case 1: return CombatRPS.PAPER;
-            case 2: return CombatRPS.SCISSORS;
+            case 0: return CombatRPS.HEAVY;
+            case 1: return CombatRPS.LIGHT;
+            case 2: return CombatRPS.DODGE;
         }
-        return CombatRPS.ROCK;
+        return CombatRPS.HEAVY;
     }
     // Updated: Logic to determine if the player or CPU wins
     private void checkWinner() { //process that decides who wins the turn
@@ -105,6 +100,7 @@ public class CombatActivity extends AppCompatActivity {
             match_draw = true; // It's a tie
             return;
         }
+
 
         // Determine winner based on RPS rules
         if (player_selection == CombatRPS.ROCK) {
@@ -132,9 +128,58 @@ public class CombatActivity extends AppCompatActivity {
             startActivity(intent);
             finish(); // Close the current activity
         }
+
     }
-    // Added: Intent factory method
-    public static Intent combatActivityIntentFactory(Context context) {
+
+    public int damageCalc(){
+        int defaultDamage;
+        defaultDamage = 20;
+        //TODO: Add calculation based on equipment (again, if we have those)
+
+        return defaultDamage;
+    }
+
+    private int healthLeft(int health){
+        health = health - damageCalc();
+        return health - damageCalc();
+    }
+
+    boolean battleState(boolean fight){
+        if(player_health > 0 && cpu_health > 0){
+            fight = true;
+            proceed();
+        }
+        else{
+            fight = false;
+        }
+        return fight;
+    }
+
+    public void endMatch(){
+        if(cpu_health <= 0){
+            System.out.println("You Win!\n");
+            //TODO: Add a way for it to send results to battle log
+
+            startActivity(PostMatchActivity.postMatchIntentFactory(getApplicationContext()));
+        }
+
+        if(player_health <= 0){
+            System.out.println("You Lose!");
+            //TODO: Add a way for it to send results to battle log
+
+            startActivity(PostMatchActivityLose.postMatchLoseIntentFactory(getApplicationContext()));
+        }
+    }
+
+    public void clearInputs(){
+        player_selection = null;
+        cpu_selection = null;
+        match_draw = false;
+        player_winner = true;
+    }
+
+
+    static Intent combatActivityIntentFactory(Context context) {
         return new Intent(context, CombatActivity.class);
     }
     }
