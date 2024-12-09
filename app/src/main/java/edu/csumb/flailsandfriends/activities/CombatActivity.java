@@ -1,4 +1,4 @@
-package com.example.friendsandflails.activities;
+package edu.csumb.flailsandfriends.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,11 +9,11 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.friendsandflails.R;
-import com.example.friendsandflails.database.FlailRepo;
-import com.example.friendsandflails.databinding.ActivityCombatBinding;
+import edu.csumb.flailsandfriends.R;
+import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityCombatBinding;
 
-import com.example.friendsandflails.entities.User;
+import edu.csumb.flailsandfriends.entities.User;
 
 import java.util.Random;
 import java.util.Scanner;
