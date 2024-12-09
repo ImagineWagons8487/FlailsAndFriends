@@ -50,6 +50,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
+
+        binding.backToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void verifyUser() {
