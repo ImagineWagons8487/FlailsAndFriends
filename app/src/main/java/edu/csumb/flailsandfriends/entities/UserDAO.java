@@ -9,6 +9,7 @@ import edu.csumb.flailsandfriends.database.FlailDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -18,7 +19,10 @@ public interface UserDAO {
     void insert(User... user);
 
     @Delete
-    void delete(User user);
+    void delete(User... user);
+
+    @Update
+    void update(User... user);
 
     @Query("SELECT * FROM " + FlailDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUser();

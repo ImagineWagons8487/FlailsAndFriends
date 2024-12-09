@@ -44,12 +44,21 @@ dependencies {
     testImplementation('junit:junit:4.13.2') {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
+    //testing libraries
+    testImplementation libs.core.testing.v220
+    testImplementation libs.mockito.core
+    testImplementation libs.robolectric
+    testImplementation libs.junit.v115
 
-    // Android testing dependencies
+    androidTestImplementation libs.runner
+    androidTestImplementation libs.rules
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
+    //room database
     def room_version = "2.6.1"
+
+    //firebase stuff
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
