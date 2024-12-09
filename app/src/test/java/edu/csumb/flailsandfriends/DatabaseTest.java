@@ -114,4 +114,60 @@ public class DatabaseTest {
         }
     }
 
+    /**
+     * Makes a new Equipment object and inserts it using the @Mock DAO
+     * then uses Mockito's public {@code verify} function to ensure
+     * that the {@code insert()} in EquipmentDAO.java was called with the correct equipment.
+     * **/
+    @Test
+    public void insertEquipmentMockTest() {
+        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+
+        repository.insertEquipment(testEquipment);
+
+        try {
+            Thread.sleep(100);
+            verify(mockEquipmentDao).insert(testEquipment);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Makes a new Equipment object and 'deletes' it using the @Mock DAO.
+     * Mockito's public {@code verify} function to check that
+     * {@code delete()} in EquipmentDAO.java was called with the correct equipment.
+     * **/
+    @Test
+    public void deleteEquipmentMockTest() {
+        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+
+        repository.deleteEquipment(testEquipment);
+
+        try {
+            Thread.sleep(100);
+            verify(mockEquipmentDao).delete(testEquipment);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Makes a new Equipment object and 'updates' it using the @Mock DAO.
+     * Mockito's public {@code verify} function to check that
+     * {@code update()} in EquipmentDAO.java was called with the correct equipment.
+     * **/
+    @Test
+    public void updateEquipmentMockTest() {
+        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+
+        repository.updateEquipment(testEquipment);
+
+        try {
+            Thread.sleep(100);
+            verify(mockEquipmentDao).update(testEquipment);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
