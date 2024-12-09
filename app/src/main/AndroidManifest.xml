@@ -13,22 +13,25 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".activities.LoadOutActivity"
+            android:name="edu.csumb.flailsandfriends.activities.CharacterSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.CombatActivity"
+            android:name="edu.csumb.flailsandfriends.activities.LoadOutActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.CreateAccountActivity"
+            android:name="edu.csumb.flailsandfriends.activities.CombatActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LandingPageActivity"
+            android:name="edu.csumb.flailsandfriends.activities.CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="edu.csumb.flailsandfriends.activities.LandingPageActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="edu.csumb.flailsandfriends.activities.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="edu.csumb.flailsandfriends.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

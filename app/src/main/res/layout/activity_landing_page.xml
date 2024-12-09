@@ -5,31 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LandingPageActivity">
-
-    <Button
-        android:id="@+id/fightButton"
-        android:layout_width="128dp"
-        android:layout_height="64dp"
-        android:text="Fight!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.943"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
-
-    <Button
-        android:id="@+id/loadout_button"
-        android:layout_width="128dp"
-        android:layout_height="64dp"
-        android:text="Loadout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+    tools:context="edu.csumb.flailsandfriends.activities.LandingPageActivity">
 
     <TextView
         android:id="@+id/nameTextField"
@@ -66,5 +42,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bitmapName"
         app:layout_constraintVertical_bias="0.116" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/fightButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Fight!" />
+
+        <Button
+            android:id="@+id/loadout_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Loadout" />
+
+        <Button
+            android:id="@+id/characterSelectButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Select Character" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

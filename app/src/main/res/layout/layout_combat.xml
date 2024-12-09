@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#27A5A5A5"
-    tools:context=".activities.MainActivity"
+    tools:context="edu.csumb.flailsandfriends.activities.MainActivity"
     >
     <TextView
         android:id="@+id/getReady"
