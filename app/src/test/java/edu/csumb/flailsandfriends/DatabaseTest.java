@@ -170,4 +170,62 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Makes a new BattleRecord object and 'inserts' it using the @Mock DAO
+     * then uses Mockito's public {@code verify} function to ensure
+     * that the {@code insert()} in BattleRecordDAO.java was called with the correct BattleRecord.
+     * **/
+    @Test
+    public void insertBattleRecordMockTest() {
+        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+
+        repository.insertBattleRecord(testRecord);
+
+        try {
+            Thread.sleep(100);
+            verify(mockBattleRecordDao).insert(testRecord);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Makes a new BattleRecord object and 'deletes' it using the @Mock DAO
+     * then uses Mockito's public {@code verify} function to ensure
+     * that the {@code delete()} in BattleRecordDAO.java was called with the correct BattleRecord.
+     * **/
+    @Test
+    public void deleteBattleRecordMockTest() {
+        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+
+        repository.deleteBattleRecord(testRecord);
+
+        try {
+            Thread.sleep(100);
+            verify(mockBattleRecordDao).delete(testRecord);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Makes a new BattleRecord object and "updates" it using the @Mock DAO
+     * then uses Mockito's public {@code verify} function to ensure
+     * that the {@code insert()} in BattleRecordDAO.java was called with the correct BattleRecord.
+     * **/
+    @Test
+    public void updateBattleRecordMockTest() {
+        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+
+        repository.updateBattleRecord(testRecord);
+
+        try {
+            Thread.sleep(100);
+            verify(mockBattleRecordDao).update(testRecord);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
