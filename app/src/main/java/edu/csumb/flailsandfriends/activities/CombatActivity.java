@@ -1,5 +1,6 @@
 package edu.csumb.flailsandfriends.activities;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import edu.csumb.flailsandfriends.databinding.ActivityCombatBinding;
 import edu.csumb.flailsandfriends.entities.User;
 
 import java.util.Random;
+
+
 
 public class CombatActivity extends AppCompatActivity {
     // Enum for player and CPU selections
