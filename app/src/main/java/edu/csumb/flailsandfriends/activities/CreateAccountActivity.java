@@ -73,6 +73,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         }
 
         setIsLoading(true);
+        // API sign-up using Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,10 +82,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                             // Update the local repository
-                            repository.insertUser(new User(email, password));
+                            User flailUser = new User(email, password);
+                            repository.insertUser(flailUser);
 
                             Snackbar snackbar = toastMaker( "Let's go boys, we've got a new user!! ");
                             snackbar.addCallback(new Snackbar.Callback() {
@@ -103,7 +105,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 errorMessage= "Try again later.";
                             }
                             toastMaker( "Authentication failed: "+errorMessage);
-                            // updateUI(null);
                         }
                     }
                 });
