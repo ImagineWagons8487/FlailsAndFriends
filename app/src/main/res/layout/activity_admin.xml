@@ -10,31 +10,33 @@
     <!-- Layout for the add Equipment fields -->
 
     <!-- TextView that holds title for the addEquipment feature -->
+
+    <!-- Label for the equipment name text field -->
+
+    <!-- EditText field for equipment name -->
+
     <TextView
         android:id="@+id/addEquipmentTitleTextView"
         android:layout_width="275dp"
         android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         android:text="@string/add_equipment"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
-
-    <!-- Label for the equipment name text field -->
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/equipmentNameLabelTextView"
         android:layout_width="100dp"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="72dp"
         android:text="@string/name"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- EditText field for equipment name -->
 
     <EditText
         android:id="@+id/equipmentNameInputEditText"
@@ -125,17 +127,17 @@
 
     <!-- Label for the makeAdmin EditText field -->
 
+    <!-- EditText field for the makeAdmin feature -->
+
     <TextView
         android:id="@+id/makeAdminLabelTextView"
         android:layout_width="100dp"
         android:layout_height="36dp"
-        android:layout_marginTop="324dp"
+        android:layout_marginTop="348dp"
         android:text="@string/name"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- EditText field for the makeAdmin feature -->
 
     <EditText
         android:id="@+id/makeAdminNameInputEditText"
@@ -154,7 +156,7 @@
         android:id="@+id/makeAdminButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_to_database"
+        android:text="@string/toggle_admin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,10 +165,6 @@
 
     <!-- Layout for the makeAdmin feature -->
     <!-- Title TextView for the makeAdmin feature -->
-
-    <!-- Label for the makeAdmin EditText field -->
-
-    <!-- EditText field for the makeAdmin feature -->
 
     <TextView
         android:id="@+id/deleteUserTitleTextView"
@@ -181,11 +179,15 @@
         app:layout_constraintTop_toBottomOf="@+id/makeAdminButton"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- Label for the makeAdmin EditText field -->
+
+
+    <!-- EditText field for the makeAdmin feature -->
     <TextView
         android:id="@+id/deleteUserLabelTextView"
         android:layout_width="100dp"
         android:layout_height="36dp"
-        android:layout_marginTop="516dp"
+        android:layout_marginTop="552dp"
         android:text="@string/name"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -214,6 +216,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/deleteUserInputEditText"
         app:layout_constraintVertical_bias="0.086" />
+
+    <ImageView
+        android:id="@+id/backToLandingPageButton"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        app:layout_constraintEnd_toStartOf="@+id/addEquipmentTitleTextView"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

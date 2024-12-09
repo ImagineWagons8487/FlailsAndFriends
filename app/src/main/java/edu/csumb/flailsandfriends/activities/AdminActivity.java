@@ -16,24 +16,22 @@ import edu.csumb.flailsandfriends.entities.Equipment;
 import edu.csumb.flailsandfriends.entities.User;
 
 public class AdminActivity extends AppCompatActivity {
-    private static final String LANDING_PAGE_USER_ID = "com.example.friendsandflails.LANDING_PAGE_USER_ID";
+    private static final String ADMIN_PAGE_USER_ID = "edu.csumb.flailsandfriends.ADMIN_PAGE_USER_ID";
 
-    static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.friendsandflails.SAVED_INSTANCE_STATE_USERID_KEY";
-
-    private final int currentUserId = getIntent().getIntExtra(LANDING_PAGE_USER_ID, -1);
+    static final String SAVED_INSTANCE_STATE_USERID_KEY = "edu.csumb.flailsandfriends.SAVED_INSTANCE_STATE_USERID_KEY";
 
     private ActivityAdminBinding binding;
 
     private FlailRepo repository;
-
-    private User user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        int currentUserId = getIntent().getIntExtra(ADMIN_PAGE_USER_ID, -1);
+
 
         repository = FlailRepo.getRepository(getApplication());
 
@@ -45,9 +43,12 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        binding.makeAdminButton.setOnClickListener(view -> updateAdmin());
+        binding.makeAdminButton.setOnClickListener(view -> updateAdmin(currentUserId));
 
-        binding.deleteUserButton.setOnClickListener(view -> doItMyself());
+        binding.deleteUserButton.setOnClickListener(view -> doItMyself(currentUserId));
+
+        binding.backToLandingPageButton.setOnClickListener(view ->
+                startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), currentUserId)));
     }
 
     /**
@@ -73,12 +74,17 @@ public class AdminActivity extends AppCompatActivity {
         String buff = binding.buffInputEditText.getText().toString();
         if (buff.isEmpty()) {
             toastMaker("Buff amount may not be blank");
-            return;
         }
         else {
-            repository.insertEquipment(new Equipment(equipmentName, imagePath, Integer.parseInt(buff)));
-            String equipmentString = String.format("Name: %s, Image Path: %s, Buff: %s", equipmentName, imagePath, buff);
-            toastMaker(equipmentString);
+            try {
+                int buffNum = Integer.parseInt(buff);
+                repository.insertEquipment(new Equipment(equipmentName, imagePath, buffNum));
+                String equipmentString = String.format("Name: %s, Image Path: %s, Buff: %s", equipmentName, imagePath, buff);
+                toastMaker(equipmentString);
+            }catch(NumberFormatException wrongNum){
+                toastMaker("Buff must be a valid number");
+            }
+
         }
     }
 
@@ -88,7 +94,7 @@ public class AdminActivity extends AppCompatActivity {
      * checks have completed, the method toggles the admin status of the user
      * retrieved from the database.
      * **/
-    private void updateAdmin(){
+    private void updateAdmin(int id){
         String email = binding.makeAdminNameInputEditText.getText().toString();
 
         if (email.isEmpty()) {
@@ -101,10 +107,8 @@ public class AdminActivity extends AppCompatActivity {
         userObserver.observe(this, flailUser -> {
             if (flailUser == null) {
                 toastMaker("No such user exists");
-                return;
-            } else if(flailUser.getId() == currentUserId){
+            } else if(flailUser.getId() == id){
                 toastMaker("Admin cannot remove status from self");
-                return;
             } else {
                 if(flailUser.isAdmin()){
                     flailUser.setAdmin(false);
@@ -117,7 +121,13 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
-    private void doItMyself(){
+    /**
+     * This method ensures that a valid email has been entered for the user look up.
+     * It then ensures that the user exists, is not the current user, and is not an admin.
+     * Once these checks have completed, the method snaps its proverbial fingers and deletes
+     * someone from existence(the database).
+     * **/
+    private void doItMyself(int id){
         String email = binding.deleteUserInputEditText.getText().toString();
 
         if (email.isEmpty()) {
@@ -129,14 +139,11 @@ public class AdminActivity extends AppCompatActivity {
 
         userObserver.observe(this, flailUser -> {
             if (flailUser == null) {
-                toastMaker("User: Non-existant");
-                return;
-            } else if(flailUser.getId() == currentUserId){
+                toastMaker("User: Non-existent");
+            } else if(flailUser.getId() == id){
                 toastMaker("Self Delete: Illegal");
-                return;
             }else if(flailUser.isAdmin()){
                 toastMaker("Admins cannot be deleted");
-                return;
             } else {
                 repository.deleteUser(flailUser);
                 toastMaker("I don't feel so good, Dr. C");
@@ -150,7 +157,7 @@ public class AdminActivity extends AppCompatActivity {
 
     static Intent adminActivityIntentFactory(Context context, int userId){
         Intent intent = new Intent(context, AdminActivity.class);
-        intent.putExtra(LANDING_PAGE_USER_ID, userId);
+        intent.putExtra(ADMIN_PAGE_USER_ID, userId);
         return intent;
     }
 }
