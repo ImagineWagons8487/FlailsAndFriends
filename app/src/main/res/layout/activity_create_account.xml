@@ -21,16 +21,17 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/usernameEditText"
+        android:id="@+id/email_edit_text"
         android:layout_width="match_parent"
-        android:inputType="text"
         android:layout_height="85dp"
         android:layout_margin="16dp"
-        android:gravity="center"
         android:autofillHints="Please enter a username."
-        android:hint="@string/username"
+        android:gravity="center"
+        android:hint="@string/email"
+        android:inputType="text"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/createAccountMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/createAccountMessage"
+        tools:layout_editor_absoluteX="16dp" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -42,7 +43,7 @@
         android:gravity="center"
         android:hint="@string/password"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
+        app:layout_constraintTop_toBottomOf="@id/email_edit_text" />
 
 
     <Button
