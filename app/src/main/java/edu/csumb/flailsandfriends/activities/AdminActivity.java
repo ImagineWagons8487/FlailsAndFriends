@@ -3,6 +3,7 @@ package edu.csumb.flailsandfriends.activities;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,10 +41,16 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        binding.adminAddEquipmentButton.setOnClickListener(new View.OnClickListener() {
+        binding.makeAdminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyAdmin();
+                updateAdmin();
+            }
+        });
+        binding.deleteUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                illDoItMyself();
             }
         });
     }
@@ -74,12 +81,39 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-    private void verifyAdmin(){
-        String name = binding.makeAdminNameInputEditText.getText().toString();
-        if (name.isEmpty()) {
+    private void updateAdmin(){
+        String email = binding.makeAdminNameInputEditText.getText().toString();
+        int currentUserId = getIntent().getIntExtra(LANDING_PAGE_USER_ID, -1);
+        if (email.isEmpty()) {
             toastMaker("Name may not be blank");
             return;
         }
+
+        LiveData<User> userObserver = repository.getUserByEmail(email);
+        userObserver.observe(this, flailUser -> {
+            if (flailUser == null) {
+                toastMaker("No such user exists");
+                return;
+            }
+            else if(flailUser.getId() == currentUserId){
+                toastMaker("Admin cannot remove status from self");
+                return;
+            }
+            else {
+                if(flailUser.isAdmin()){
+                    flailUser.setAdmin(false);
+                    repository.updateUser(flailUser);
+                }else{
+                    flailUser.setAdmin(true);
+                    repository.updateUser(flailUser);
+                }
+            }
+        });
+    }
+
+    private void illDoItMyself(){
+        String email = binding.deleteUserInputEditText.getText().toString();
+
     }
 
     private void toastMaker(String message) {
