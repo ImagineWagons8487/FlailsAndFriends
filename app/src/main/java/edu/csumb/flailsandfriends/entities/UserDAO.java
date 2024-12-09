@@ -22,7 +22,7 @@ public interface UserDAO {
     void delete(User... user);
 
     @Update
-    void update(User...user);
+    void update(User... user);
 
     @Query("SELECT * FROM " + FlailDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUser();

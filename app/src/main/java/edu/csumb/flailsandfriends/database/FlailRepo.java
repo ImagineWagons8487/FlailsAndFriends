@@ -66,6 +66,14 @@ public class FlailRepo {
         FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
     }
 
+    public void updateUser(User... user) {
+        FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.update(user));
+    }
+
+    public void deleteUser(User... user) {
+        FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
+    }
+
     public LiveData<User> getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
     }
