@@ -54,8 +54,8 @@ public class FlailRepo {
         FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.insert(user));
     }
 
-    public LiveData<User> getUserByUsername(String username) {
-        return userDAO.getUserByUsername(username);
+    public LiveData<User> getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email);
     }
 
     public LiveData<User> getUserByUserId(int loggedInUserId) {
