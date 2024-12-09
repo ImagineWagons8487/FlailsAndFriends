@@ -23,6 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -34,11 +35,15 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+
+    // Use JUnit 4.13.2 and exclude hamcrest-core to avoid conflicts
+    testImplementation('junit:junit:4.13.2') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
     //testing libraries
     testImplementation libs.core.testing.v220
     testImplementation libs.mockito.core
@@ -52,19 +57,23 @@ dependencies {
 
     //room database
     def room_version = "2.6.1"
+
     //firebase stuff
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation platform("com.google.firebase:firebase-bom:33.7.0")
 
-    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // Firebase dependencies
+    implementation "com.google.firebase:firebase-analytics"
+    implementation "com.google.firebase:firebase-auth"
+}
 
-    // Add the dependency for the Firebase SDK for Google Analytics
-    implementation("com.google.firebase:firebase-analytics")
-
-    // See https://firebase.google.com/docs/android/setup#available-libraries
-    // For example, add the dependencies for Firebase Authentication
-    implementation("com.google.firebase:firebase-auth")
+// Force resolution strategy to avoid duplicate classes
+configurations.all {
+    resolutionStrategy {
+        force 'junit:junit:4.13.2'
+        force 'org.hamcrest:hamcrest-core:1.3'
+    }
 }
