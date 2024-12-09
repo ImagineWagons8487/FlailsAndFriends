@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import edu.csumb.flailsandfriends.database.FlailDatabase;
 
@@ -17,7 +18,10 @@ public interface EquipmentDAO {
     void insert(Equipment... equipment);
 
     @Delete
-    void delete(Equipment equipment);
+    void delete(Equipment... equipment);
+
+    @Update
+    void update(Equipment... equipment);
 
     @Query("SELECT * FROM " + FlailDatabase.EQUIPMENT_TABLE + " ORDER BY equipmentName")
     LiveData<List<Equipment>> getAllEquipments();
