@@ -20,4 +20,18 @@
     <string name="preference_file_key">projectPreferenceKey</string>
     <string name="preference_userid_key">preferenceUserIdKey</string>
     <string name="logged_in">Logged In</string>
+    <string name="name">Name</string>
+    <string name="equipment_name">Equipment Name</string>
+    <string name="image_path">Image Path</string>
+    <string name="enter_image_path">Enter Image Path</string>
+    <string name="enter_buff_amount">Enter Buff Amount</string>
+    <string name="buff">Buff</string>
+    <string name="add_to_database">Add To Database</string>
+    <string name="switch_admin_status">Switch Admin Status</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="thanos_snap_user">Thanos Snap User</string>
+    <string name="snap">Snap!</string>
+    <string name="add_equipment">Add Equipment</string>
+    <string name="admin_screen">Admin Screen</string>
+    <string name="toggle_admin">Toggle Admin</string>
 </resources>
