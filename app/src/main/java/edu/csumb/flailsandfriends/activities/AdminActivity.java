@@ -20,11 +20,14 @@ public class AdminActivity extends AppCompatActivity {
 
     static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.friendsandflails.SAVED_INSTANCE_STATE_USERID_KEY";
 
+    private final int currentUserId = getIntent().getIntExtra(LANDING_PAGE_USER_ID, -1);
+
     private ActivityAdminBinding binding;
 
     private FlailRepo repository;
 
     private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class AdminActivity extends AppCompatActivity {
 
         repository = FlailRepo.getRepository(getApplication());
 
+        // leave this as is in case i forget what the lambda does
         binding.adminAddEquipmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,20 +45,17 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        binding.makeAdminButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateAdmin();
-            }
-        });
-        binding.deleteUserButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                illDoItMyself();
-            }
-        });
+        binding.makeAdminButton.setOnClickListener(view -> updateAdmin());
+
+        binding.deleteUserButton.setOnClickListener(view -> doItMyself());
     }
 
+    /**
+     * This method checks all of the fields for the equipment addition form.
+     * If all fields are valid, it then creates an Equipment object with all
+     * the field values as the parameters. It then inserts the Equipment object
+     * into our database.
+     * **/
     private void verifyEquipment(){
 
         String equipmentName = binding.equipmentNameInputEditText.getText().toString();
@@ -81,25 +82,30 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method ensures that a valid email has been entered for the user look up.
+     * It then ensures that the user exists, and is not the current user. Once these
+     * checks have completed, the method toggles the admin status of the user
+     * retrieved from the database.
+     * **/
     private void updateAdmin(){
         String email = binding.makeAdminNameInputEditText.getText().toString();
-        int currentUserId = getIntent().getIntExtra(LANDING_PAGE_USER_ID, -1);
+
         if (email.isEmpty()) {
-            toastMaker("Name may not be blank");
+            toastMaker("Email may not be blank");
             return;
         }
 
         LiveData<User> userObserver = repository.getUserByEmail(email);
+
         userObserver.observe(this, flailUser -> {
             if (flailUser == null) {
                 toastMaker("No such user exists");
                 return;
-            }
-            else if(flailUser.getId() == currentUserId){
+            } else if(flailUser.getId() == currentUserId){
                 toastMaker("Admin cannot remove status from self");
                 return;
-            }
-            else {
+            } else {
                 if(flailUser.isAdmin()){
                     flailUser.setAdmin(false);
                     repository.updateUser(flailUser);
@@ -111,9 +117,31 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
-    private void illDoItMyself(){
+    private void doItMyself(){
         String email = binding.deleteUserInputEditText.getText().toString();
 
+        if (email.isEmpty()) {
+            toastMaker("Email may not be blank");
+            return;
+        }
+
+        LiveData<User> userObserver = repository.getUserByEmail(email);
+
+        userObserver.observe(this, flailUser -> {
+            if (flailUser == null) {
+                toastMaker("User: Non-existant");
+                return;
+            } else if(flailUser.getId() == currentUserId){
+                toastMaker("Self Delete: Illegal");
+                return;
+            }else if(flailUser.isAdmin()){
+                toastMaker("Admins cannot be deleted");
+                return;
+            } else {
+                repository.deleteUser(flailUser);
+                toastMaker("I don't feel so good, Dr. C");
+            }
+        });
     }
 
     private void toastMaker(String message) {
