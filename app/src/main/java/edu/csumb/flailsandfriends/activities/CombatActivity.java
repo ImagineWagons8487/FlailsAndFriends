@@ -20,9 +20,9 @@ public class CombatActivity extends AppCompatActivity {
     private static CombatRPS player_selection = CombatRPS.SCISSORS;
     private static CombatRPS cpu_selection = CombatRPS.ROCK;
 
-
-//    public int player_health = 100;
-//    public int cpu_health = 100;
+// NEED THESE
+    public int player_health = 100;
+    public int cpu_health = 100;
 
     // Flags for match outcome
     public static boolean player_winner = true;
