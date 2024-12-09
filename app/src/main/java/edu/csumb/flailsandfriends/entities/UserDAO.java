@@ -26,8 +26,10 @@ public interface UserDAO {
     @Query("DELETE from " + FlailDatabase.USER_TABLE)
     void deleteAll();
 
-    @Query("SELECT * from " + FlailDatabase.USER_TABLE + " WHERE username == :username")
-    LiveData<User> getUserByUsername(String username);
+    // username column should be called email
+    // but we're not changing it for now so that we avoid a database migration.
+    @Query("SELECT * from " + FlailDatabase.USER_TABLE + " WHERE username == :email")
+    LiveData<User> getUserByEmail(String email);
 
     @Query("SELECT * from " + FlailDatabase.USER_TABLE + " WHERE id == :loggedInUserId")
     LiveData<User> getUserByUserId(int loggedInUserId);

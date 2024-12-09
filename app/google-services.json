@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "873503394948",
+    "project_id": "flailsandfriends",
+    "storage_bucket": "flailsandfriends.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873503394948:android:a4be4d1fd8ce688cf2c6d1",
+        "android_client_info": {
+          "package_name": "edu.csumb.flailsandfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873503394948-f1mfeelq9qs6sptqgmsb8e9l78evulm0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.csumb.flailsandfriends",
+            "certificate_hash": "4581fa0e804cf2ce8387ec00830fbe7bed181857"
+          }
+        },
+        {
+          "client_id": "873503394948-1a7i6lloui9oi7h3midaf1cilo9r61qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiAl5UDT_xOXVn2uGkSri1AMwpI3dSvw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873503394948-1a7i6lloui9oi7h3midaf1cilo9r61qf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
