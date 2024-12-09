@@ -1,15 +1,22 @@
 package edu.csumb.flailsandfriends.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import edu.csumb.flailsandfriends.R;
 import edu.csumb.flailsandfriends.database.FlailRepo;
 import edu.csumb.flailsandfriends.databinding.ActivityAdminBinding;
 import edu.csumb.flailsandfriends.entities.Equipment;
@@ -20,9 +27,15 @@ public class AdminActivity extends AppCompatActivity {
 
     static final String SAVED_INSTANCE_STATE_USERID_KEY = "edu.csumb.flailsandfriends.SAVED_INSTANCE_STATE_USERID_KEY";
 
+    private static final int LOGGED_OUT = -1;
+
     private ActivityAdminBinding binding;
 
     private FlailRepo repository;
+
+    private int loggedInUserId = -1;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +43,17 @@ public class AdminActivity extends AppCompatActivity {
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int currentUserId = getIntent().getIntExtra(ADMIN_PAGE_USER_ID, -1);
-
+        loggedInUserId = getIntent().getIntExtra(ADMIN_PAGE_USER_ID, -1);
 
         repository = FlailRepo.getRepository(getApplication());
+
+        logInUser(savedInstanceState);
+
+        if(loggedInUserId == LOGGED_OUT){
+            Intent intent = LoginActivity.logInIntentFactory(getApplicationContext());
+            startActivity(intent);
+        }
+        updateSharedPreference();
 
         // leave this as is in case i forget what the lambda does
         binding.adminAddEquipmentButton.setOnClickListener(new View.OnClickListener() {
@@ -43,12 +63,12 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        binding.makeAdminButton.setOnClickListener(view -> updateAdmin(currentUserId));
+        binding.makeAdminButton.setOnClickListener(view -> updateAdmin(loggedInUserId));
 
-        binding.deleteUserButton.setOnClickListener(view -> doItMyself(currentUserId));
+        binding.deleteUserButton.setOnClickListener(view -> doItMyself(loggedInUserId));
 
         binding.backToLandingPageButton.setOnClickListener(view ->
-                startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), currentUserId)));
+                startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), loggedInUserId)));
     }
 
     /**
@@ -159,5 +179,90 @@ public class AdminActivity extends AppCompatActivity {
         Intent intent = new Intent(context, AdminActivity.class);
         intent.putExtra(ADMIN_PAGE_USER_ID, userId);
         return intent;
+    }
+
+    /**
+     * Everything below here is back magic. DO NOT TOUCH!!!
+     * **/
+
+    private void logInUser(Bundle savedInstanceState){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userid_key), LOGGED_OUT);
+
+        if(loggedInUserId == LOGGED_OUT & savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)){
+            loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
+        }
+        if(loggedInUserId == LOGGED_OUT){
+            loggedInUserId = getIntent().getIntExtra(ADMIN_PAGE_USER_ID, LOGGED_OUT);
+        }
+        if(loggedInUserId == LOGGED_OUT){
+            return;
+        }
+
+        LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
+        userObserver.observe(this,user -> {
+            this.user = user;
+            if(user != null){
+                invalidateOptionsMenu();
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_INSTANCE_STATE_USERID_KEY, loggedInUserId);
+        updateSharedPreference();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem item  = menu.findItem(R.id.logoutMenuId);
+        item.setVisible(true);
+        if(user == null){
+            return false;
+        }
+        item.setTitle(user.getUsername());
+        item.setOnMenuItemClickListener(menuItem -> {
+            showLogoutDialog();
+            return false;
+        });
+        return true;
+    }
+
+    private void showLogoutDialog(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AdminActivity.this);
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        alertBuilder.setMessage("Logout");
+
+        alertBuilder.setPositiveButton("Logout", (dialogInterface, i) -> logout());
+
+        alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> alertDialog.dismiss());
+
+        alertBuilder.create().show();
+    }
+
+    private void logout(){
+        loggedInUserId = LOGGED_OUT;
+        updateSharedPreference();
+        getIntent().putExtra(ADMIN_PAGE_USER_ID, LOGGED_OUT);
+
+        startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext()));
+    }
+
+    private void updateSharedPreference(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
+        sharedPreferenceEditor.putInt(getString(R.string.preference_userid_key), LOGGED_OUT);
+        sharedPreferenceEditor.apply();
     }
 }
