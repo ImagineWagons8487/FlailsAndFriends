@@ -66,12 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         LoginActivity that = this;
+        setIsLoading(true);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // Firebase authentication has resolved with a success or error state
-
+                        setIsLoading(false);
 
                         // If Firebase authentication is successful, then we need to proceed to
                         // launching our landing page activity.
@@ -115,6 +116,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void setIsLoading(boolean b) {
+        binding.emailLoginEditText.setEnabled(!b);
+        binding.passwordLoginEditText.setEnabled(!b);
+        binding.loginButton.setEnabled(!b);
     }
 
     private Snackbar toastMaker(String message)  {
