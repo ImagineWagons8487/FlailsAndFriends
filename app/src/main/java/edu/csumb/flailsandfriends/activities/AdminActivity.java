@@ -175,7 +175,7 @@ public class AdminActivity extends AppCompatActivity {
         Toast.makeText(AdminActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    static Intent adminActivityIntentFactory(Context context, int userId){
+    public static Intent adminActivityIntentFactory(Context context, int userId){
         Intent intent = new Intent(context, AdminActivity.class);
         intent.putExtra(ADMIN_PAGE_USER_ID, userId);
         return intent;

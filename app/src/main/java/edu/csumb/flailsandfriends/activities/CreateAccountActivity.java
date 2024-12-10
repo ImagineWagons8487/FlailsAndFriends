@@ -134,7 +134,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         return snackbar;
     }
 
-    static Intent createAccountIntentFactory(Context context) {
+    public static Intent createAccountIntentFactory(Context context) {
         return new Intent(context, CreateAccountActivity.class);
     }
 }

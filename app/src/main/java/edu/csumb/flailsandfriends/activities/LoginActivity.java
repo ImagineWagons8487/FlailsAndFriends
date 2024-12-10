@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import edu.csumb.flailsandfriends.database.FlailRepo;
 import edu.csumb.flailsandfriends.databinding.ActivityLoginBinding;
 import edu.csumb.flailsandfriends.entities.User;
+import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "LoginActivity";
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
+        Timber.d("oncreate function loginActivity");
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         // launching our landing page activity.
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Timber.tag(TAG).d("signInWithEmail:success");
 
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
@@ -105,7 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Timber.tag(TAG).w("signInWithEmail:failure");
+//                            Log.w(TAG, "signInWithEmail:failure", task.getException());
                             String errorMessage;
                             try {
                                 errorMessage = task.getException().getMessage();
@@ -135,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         return snackbar;
     }
 
-    static Intent logInIntentFactory(Context context) {
+    public static Intent logInIntentFactory(Context context) {
         return new Intent(context, LoginActivity.class);
     }
 }

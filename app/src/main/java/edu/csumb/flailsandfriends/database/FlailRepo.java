@@ -70,6 +70,10 @@ public class FlailRepo {
         return userDAO.getUserByEmail(email);
     }
 
+    public User getUserByEmailOffline(String email) {
+        return userDAO.getUserByEmailOffline(email);
+    }
+
     public LiveData<User> getUserByUserId(int loggedInUserId) {
         return userDAO.getUserByUserId(loggedInUserId);
     }
@@ -90,6 +94,10 @@ public class FlailRepo {
         return equipmentDAO.getEquipmentByName(name);
     }
 
+    public Equipment getEquipmentByNameOffline(String name) {
+        return equipmentDAO.getEquipmentByNameOffline(name);
+    }
+
     public LiveData<List<Equipment>> getEquipmentById(int equipmentId) {
         return equipmentDAO.getEquipmentById(equipmentId);
     }
@@ -108,6 +116,10 @@ public class FlailRepo {
 
     public LiveData<BattleRecord> getBattleRecordByTitle(String title) {
         return battleRecordDAO.getBattleByTitle(title);
+    }
+
+    public BattleRecord getBattleRecordByTitleOffline(String title) {
+        return battleRecordDAO.getBattleByTitleOffline(title);
     }
 
     public LiveData<BattleRecord> getBattleById(int battleId) {
