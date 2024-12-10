@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".activities.AdminActivity">
+    <!-- Layout for the add Equipment fields -->
+
+    <!-- TextView that holds title for the addEquipment feature -->
+
+    <!-- Label for the equipment name text field -->
+
+    <!-- EditText field for equipment name -->
+
+    <TextView
+        android:id="@+id/addEquipmentTitleTextView"
+        android:layout_width="275dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/add_equipment"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/equipmentNameLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="72dp"
+        android:text="@string/name"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/equipmentNameInputEditText"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:autofillHints=""
+        android:hint="@string/equipment_name"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/equipmentNameLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/equipmentNameLabelTextView" />
+
+    <!-- Label for the image path text field -->
+
+    <TextView
+        android:id="@+id/imagePathLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/image_path"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equipmentNameLabelTextView" />
+
+    <!-- EditText field for image path -->
+
+    <EditText
+        android:id="@+id/imagePathInputEditText"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:hint="@string/enter_image_path"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/imagePathLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/imagePathLabelTextView" />
+
+    <!-- Label for the buff text field -->
+
+    <TextView
+        android:id="@+id/buffLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/buff"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePathLabelTextView" />
+
+    <!-- EditText field for buff amount -->
+
+    <EditText
+        android:id="@+id/buffInputEditText"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:hint="@string/enter_buff_amount"
+        android:inputType="number|numberDecimal"
+        android:padding="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/buffLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/buffLabelTextView" />
+
+    <!-- Submission button for new equipment -->
+
+    <Button
+        android:id="@+id/adminAddEquipmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_database"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buffInputEditText"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <!-- Layout for the makeAdmin feature -->
+    <!-- Title TextView for the makeAdmin feature -->
+    <TextView
+        android:id="@+id/addAdminTitleTextView"
+        android:layout_width="275dp"
+        android:layout_height="49dp"
+        android:gravity="center_horizontal"
+        android:text="@string/switch_admin_status"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/makeAdminNameInputEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminAddEquipmentButton"
+        app:layout_constraintVertical_bias="0.711" />
+
+    <!-- Label for the makeAdmin EditText field -->
+
+    <!-- EditText field for the makeAdmin feature -->
+
+    <TextView
+        android:id="@+id/makeAdminLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="348dp"
+        android:text="@string/name"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/makeAdminNameInputEditText"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:autofillHints=""
+        android:hint="@string/enter_username"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/makeAdminLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/makeAdminLabelTextView" />
+
+    <!-- This button makes admins -->
+
+    <Button
+        android:id="@+id/makeAdminButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toggle_admin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/makeAdminNameInputEditText"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <!-- Layout for the makeAdmin feature -->
+    <!-- Title TextView for the makeAdmin feature -->
+
+    <TextView
+        android:id="@+id/deleteUserTitleTextView"
+        android:layout_width="275dp"
+        android:layout_height="49dp"
+        android:gravity="center_horizontal"
+        android:text="@string/thanos_snap_user"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/deleteUserInputEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/makeAdminButton"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- Label for the makeAdmin EditText field -->
+
+
+    <!-- EditText field for the makeAdmin feature -->
+    <TextView
+        android:id="@+id/deleteUserLabelTextView"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="552dp"
+        android:text="@string/name"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/deleteUserInputEditText"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:autofillHints=""
+        android:hint="@string/enter_username"
+        android:inputType="textAutoComplete"
+        android:padding="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/deleteUserLabelTextView"
+        app:layout_constraintStart_toEndOf="@id/deleteUserLabelTextView" />
+
+    <!-- This button removes users from the database -->
+
+    <Button
+        android:id="@+id/deleteUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/snap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteUserInputEditText"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <ImageView
+        android:id="@+id/backToLandingPageButton"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        app:layout_constraintEnd_toStartOf="@+id/addEquipmentTitleTextView"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_button" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

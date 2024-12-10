@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import edu.csumb.flailsandfriends.database.FlailDatabase;
 
@@ -17,7 +18,10 @@ public interface BattleRecordDAO {
     void insert(BattleRecord... battleRecord);
 
     @Delete
-    void delete(BattleRecord battleRecord);
+    void delete(BattleRecord... battleRecord);
+
+    @Update
+    void update(BattleRecord... battleRecord);
 
     @Query("SELECT * FROM " + FlailDatabase.RECORD_TABLE + " ORDER BY date")
     LiveData<List<BattleRecord>> getAllRecords();

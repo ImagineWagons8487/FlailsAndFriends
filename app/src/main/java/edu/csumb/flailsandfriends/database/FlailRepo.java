@@ -30,11 +30,17 @@ public class FlailRepo {
 
     private static FlailRepo repository;
 
-    private FlailRepo(Application application) {
+    public FlailRepo(Application application) {
         FlailDatabase db = FlailDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
         this.equipmentDAO = db.equipmentDAO();
         this.battleRecordDAO = db.battleRecordDAO();
+    }
+
+    public FlailRepo(UserDAO mock, EquipmentDAO mock1, BattleRecordDAO mock2) {
+        this.userDAO = mock;
+        this.equipmentDAO = mock1;
+        this.battleRecordDAO = mock2;
     }
 
     public static FlailRepo getRepository(Application application) {
@@ -53,6 +59,12 @@ public class FlailRepo {
     public void insertUser(User... user) {
         FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.insert(user));
     }
+    public void updateUser(User... user) {
+        FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.update(user));
+    }
+    public void deleteUser(User... user) {
+        FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.delete(user));
+    }
 
     public LiveData<User> getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
@@ -66,6 +78,14 @@ public class FlailRepo {
         FlailDatabase.databaseWriteExecutor.execute(() -> equipmentDAO.insert(equipment));
     }
 
+    public void deleteEquipment(Equipment... equipment){
+        FlailDatabase.databaseWriteExecutor.execute(() -> equipmentDAO.delete(equipment));
+    }
+
+    public void updateEquipment(Equipment... equipment){
+        FlailDatabase.databaseWriteExecutor.execute(() -> equipmentDAO.update(equipment));
+    }
+
     public LiveData<Equipment> getEquipmentByName(String name) {
         return equipmentDAO.getEquipmentByName(name);
     }
@@ -76,6 +96,14 @@ public class FlailRepo {
 
     public void insertBattleRecord(BattleRecord... battleRecord) {
         FlailDatabase.databaseWriteExecutor.execute(() -> battleRecordDAO.insert(battleRecord));
+    }
+
+    public void deleteBattleRecord(BattleRecord... battleRecord){
+        FlailDatabase.databaseWriteExecutor.execute(() -> battleRecordDAO.delete(battleRecord));
+    }
+
+    public void updateBattleRecord(BattleRecord... battleRecord){
+        FlailDatabase.databaseWriteExecutor.execute(() -> battleRecordDAO.update(battleRecord));
     }
 
     public LiveData<BattleRecord> getBattleRecordByTitle(String title) {

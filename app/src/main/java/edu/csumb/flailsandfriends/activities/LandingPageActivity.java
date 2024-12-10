@@ -72,6 +72,23 @@ public class LandingPageActivity extends AppCompatActivity {
                 startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId));
             }
         });
+
+
+        binding.toAdminScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(AdminActivity.adminActivityIntentFactory(getApplicationContext(), loggedInUserId));
+            }
+        });
+    }
+
+    private void checkAdmin(User user){
+
+        if(user.isAdmin()){
+            binding.toAdminScreenButton.setVisibility(View.VISIBLE);
+        }else{
+            binding.toAdminScreenButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void logInUser(Bundle savedInstanceState){
@@ -92,6 +109,7 @@ public class LandingPageActivity extends AppCompatActivity {
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
         userObserver.observe(this,user -> {
             this.user = user;
+            checkAdmin(user);
             if(user != null){
                 invalidateOptionsMenu();
             }
