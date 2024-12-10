@@ -1,4 +1,5 @@
-<resources><string name="proceed">Proceed</string>
+<resources>
+    <string name="proceed">Proceed</string>
     <string name="you_win">You Win!</string>
     <string name="play_again">Play Again</string>
     <string name="rematch">Rematch</string>
