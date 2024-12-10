@@ -32,6 +32,9 @@ public interface BattleRecordDAO {
     @Query("SELECT * from " + FlailDatabase.RECORD_TABLE + " WHERE title == :title")
     LiveData<BattleRecord> getBattleByTitle(String title);
 
+    @Query("SELECT * from " + FlailDatabase.RECORD_TABLE + " WHERE title == :title")
+    BattleRecord getBattleByTitleOffline(String title);
+
     @Query("SELECT * from " + FlailDatabase.RECORD_TABLE + " WHERE id == :id")
     LiveData<BattleRecord> getBattleById(int id);
 }
