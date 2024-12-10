@@ -16,10 +16,14 @@ import edu.csumb.flailsandfriends.activities.LandingPageActivity;
 import edu.csumb.flailsandfriends.activities.LoadOutActivity;
 import edu.csumb.flailsandfriends.activities.LoginActivity;
 import edu.csumb.flailsandfriends.activities.MainActivity;
+import edu.csumb.flailsandfriends.activities.PostMatchActivity;
+import edu.csumb.flailsandfriends.activities.PostMatchActivityLose;
 
 public class ActivityIntentTests {
+
     private Context context = InstrumentationRegistry.getInstrumentation().getContext();
     int id = 420;
+
     @Test
     public void loginActivityIntentTest(){
         Intent intent = LoginActivity.logInIntentFactory(context);
@@ -69,10 +73,26 @@ public class ActivityIntentTests {
     }
 
     @Test
-    public void characterSelectActivity(){
+    public void characterSelectActivityIntentTest(){
         Intent intent = CharacterSelectActivity.characterSelectIntentFactory(context, id);
 
         assertNotNull(intent);
         assertEquals(CharacterSelectActivity.class.getName(), intent.getComponent().getClassName());
+    }
+
+    @Test
+    public void postMatchActivityLoseIntentTest(){
+        Intent intent = PostMatchActivityLose.postMatchLoseIntentFactory(context);
+
+        assertNotNull(intent);
+        assertEquals(PostMatchActivityLose.class.getName(), intent.getComponent().getClassName());
+    }
+
+    @Test
+    public void postMatchActivityIntentTest(){
+        Intent intent = PostMatchActivity.postMatchIntentFactory(context);
+
+        assertNotNull(intent);
+        assertEquals(PostMatchActivity.class.getName(), intent.getComponent().getClassName());
     }
 }
