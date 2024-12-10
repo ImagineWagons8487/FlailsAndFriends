@@ -9,9 +9,11 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Test;
 
+import edu.csumb.flailsandfriends.activities.AdminActivity;
 import edu.csumb.flailsandfriends.activities.CharacterSelectActivity;
 import edu.csumb.flailsandfriends.activities.CombatActivity;
 import edu.csumb.flailsandfriends.activities.CreateAccountActivity;
+import edu.csumb.flailsandfriends.activities.GameOverActivity;
 import edu.csumb.flailsandfriends.activities.LandingPageActivity;
 import edu.csumb.flailsandfriends.activities.LoadOutActivity;
 import edu.csumb.flailsandfriends.activities.LoginActivity;
@@ -94,5 +96,21 @@ public class ActivityIntentTests {
 
         assertNotNull(intent);
         assertEquals(PostMatchActivity.class.getName(), intent.getComponent().getClassName());
+    }
+
+    @Test
+    public void gameOverActivityIntentTest(){
+        Intent intent = GameOverActivity.gameOverIntentFactory(context);
+
+        assertNotNull(intent);
+        assertEquals(GameOverActivity.class.getName(), intent.getComponent().getClassName());
+    }
+
+    @Test
+    public void adminActivityIntentTest(){
+        Intent intent = AdminActivity.adminActivityIntentFactory(context, id);
+
+        assertNotNull(intent);
+        assertEquals(AdminActivity.class.getName(), intent.getComponent().getClassName());
     }
 }
