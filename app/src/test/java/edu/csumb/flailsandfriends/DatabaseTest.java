@@ -1,12 +1,26 @@
 package edu.csumb.flailsandfriends;
 
-import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
+import android.app.Application;
+import android.content.Context;
+
+import androidx.room.Room;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import edu.csumb.flailsandfriends.database.FlailDatabase;
 import edu.csumb.flailsandfriends.database.FlailRepo;
 import edu.csumb.flailsandfriends.entities.BattleRecord;
 import edu.csumb.flailsandfriends.entities.BattleRecordDAO;
@@ -15,217 +29,224 @@ import edu.csumb.flailsandfriends.entities.EquipmentDAO;
 import edu.csumb.flailsandfriends.entities.User;
 import edu.csumb.flailsandfriends.entities.UserDAO;
 
-/**
- * These database tests do not interact directly with our database, instead they
- * interact with mock DAO's made using Mockito. This allows me to test without the
- * application running and without filling the database with junk.
- *
- * However, because databaseWriteExecutor is a static field that never gets shut down,
- * these test will hang if run as a group. By that I mean, they will run, pass, but then
- * it seems the executor stalls for some reason I could not quite pinpoint. While the process
- * can be ended effectively manually, I am sure there is a better way of doing this.
- *
- * I could edit the database to shut down for these tests, thereby removing the issue
- * but I worry that will break things elsewhere. Run individually, each test will pass
- * and not hang. I spent hours finding a work around and could not find a satisfactory one.
- *
- * Hopefully, what I have here will suffice.
- * **/
-
+@Config(manifest= Config.NONE)
+@RunWith(AndroidJUnit4.class)
 public class DatabaseTest {
-    /**
-     * These are all mock DAO's made using Mockito
-     * **/
-    @Mock
-    private UserDAO mockUserDao;
 
-    @Mock
-    private EquipmentDAO mockEquipmentDao;
-
-    @Mock
-    private BattleRecordDAO mockBattleRecordDao;
-
+    private UserDAO userDAO;
+    private EquipmentDAO equipmentDAO;
+    private BattleRecordDAO battleRecordDAO;
     private FlailRepo repository;
+    private FlailDatabase db;
 
-    /**
-     * Sets up Mockito and makes a repo using the @Mock
-     * versions of the DAO's
-     * **/
     @Before
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        repository = new FlailRepo(mockUserDao, mockEquipmentDao, mockBattleRecordDao);
+    public void createDB() {
+        Context context = ApplicationProvider.getApplicationContext();
+        db = Room.inMemoryDatabaseBuilder(context, FlailDatabase.class)
+                .allowMainThreadQueries()  // Allow Room to run queries on the main thread in tests
+                .build();
+        userDAO = db.userDAO();
+        equipmentDAO = db.equipmentDAO();
+        battleRecordDAO = db.battleRecordDAO();
+        repository = FlailRepo.getRepository((Application) context);
     }
 
-    /**
-     * Makes a new User object and inserts it using the @Mock DAO
-     * then uses Mockito's public {@code verify} function to ensure
-     * that the {@code insert()} in UserDAO.java was called with the correct user.
-     * **/
+    @After
+    public void closeDB() throws IOException {
+        db.close();
+    }
+
     @Test
-    public void insertUserMockTest() {
-        User testUser = new User("test@gmail.com","testPass");
+    public void insertUserTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.insertUser(testUser);
+                User testUser = new User("test@gmail.com", "testPass");
+                userDAO.insert(testUser);
+                User retrievedUser = repository.getUserByEmailOffline("test@gmail.com");
 
-        try {
-            Thread.sleep(100);
-            verify(mockUserDao).insert(testUser);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(retrievedUser.getUsername(), equalTo(testUser.getUsername()));
+                assertThat(retrievedUser.getPassword(), equalTo(testUser.getPassword()));
+                assertThat(retrievedUser.getId(), equalTo(testUser.getId()));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new User object and 'deletes' it using the @Mock DAO.
-     * Mockito's public {@code verify} function to checks that
-     * {@code delete()} in UserDAO.java was called with the right user.
-     * **/
     @Test
-    public void deleteUserMockTest() {
-        User testUser = new User("test@gmail.com","testPass");
+    public void deleteUserTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.deleteUser(testUser);
+                User testUser = new User("test@gmail.com", "testPass");
+                userDAO.insert(testUser);
 
-        try {
-            Thread.sleep(100);
-            verify(mockUserDao).delete(testUser);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                User retrievedUser = repository.getUserByEmailOffline("test@gmail.com");
+                assertThat(retrievedUser.getUsername(), equalTo(testUser.getUsername()));
+
+                userDAO.delete(testUser);
+
+                retrievedUser = repository.getUserByEmailOffline("test@gmail.com");
+                assertThat(retrievedUser.getUsername(), equalTo(null));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new User object and 'updates' it using the @Mock DAO.
-     * Mockito's public {@code verify} function to checks that
-     * {@code update()} in UserDAO.java was called with the right user.
-     * **/
     @Test
-    public void updateUserMockTest() {
-        User testUser = new User("test@gmail.com","testPass");
+    public void updateUserTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.updateUser(testUser);
+                User testUser = new User("test@gmail.com", "testPass");
+                userDAO.insert(testUser);
 
-        try {
-            Thread.sleep(100);
-            verify(mockUserDao).update(testUser);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                User retrievedUser = repository.getUserByEmailOffline("test@gmail.com");
+                assertThat(retrievedUser.getUsername(), equalTo(testUser.getUsername()));
+
+                retrievedUser.setUsername("newTest@gmail.com");
+                retrievedUser.setPassword("newTestPass");
+                userDAO.update(retrievedUser);
+
+
+                retrievedUser = repository.getUserByEmailOffline("newtest@gmail.com");
+                assertThat(retrievedUser.getUsername(), equalTo("newTest@gmail.com"));
+                assertThat(retrievedUser.getPassword(), equalTo("newTestPass"));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new Equipment object and inserts it using the @Mock DAO
-     * then uses Mockito's public {@code verify} function to ensure
-     * that the {@code insert()} in EquipmentDAO.java was called with the correct equipment.
-     * **/
     @Test
-    public void insertEquipmentMockTest() {
-        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+    public void insertEquipmentTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.insertEquipment(testEquipment);
+                Equipment testEquipment = new Equipment("Testcalibur", "@drawable/testcalibur", 1);
+                equipmentDAO.insert(testEquipment);
+                Equipment retrievedEquipment = repository.getEquipmentByNameOffline("Testcalibur");
 
-        try {
-            Thread.sleep(100);
-            verify(mockEquipmentDao).insert(testEquipment);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(retrievedEquipment.getEquipmentName(), equalTo(testEquipment.getEquipmentName()));
+                assertThat(retrievedEquipment.getBitmapName(), equalTo(testEquipment.getBitmapName()));
+                assertThat(retrievedEquipment.getBuff(), equalTo(testEquipment.getBuff()));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new Equipment object and 'deletes' it using the @Mock DAO.
-     * Mockito's public {@code verify} function to check that
-     * {@code delete()} in EquipmentDAO.java was called with the correct equipment.
-     * **/
     @Test
-    public void deleteEquipmentMockTest() {
-        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+    public void deleteEquipmentTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.deleteEquipment(testEquipment);
+                Equipment testEquipment = new Equipment("Testcalibur", "@drawable/testcalibur", 1);
+                equipmentDAO.insert(testEquipment);
+                equipmentDAO.delete(testEquipment);
+                Equipment retrievedEquipment = repository.getEquipmentByNameOffline("Testcalibur");
 
-        try {
-            Thread.sleep(100);
-            verify(mockEquipmentDao).delete(testEquipment);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(retrievedEquipment.getEquipmentName(), equalTo(null));
+                assertThat(retrievedEquipment.getBitmapName(), equalTo(null));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new Equipment object and 'updates' it using the @Mock DAO.
-     * Mockito's public {@code verify} function to check that
-     * {@code update()} in EquipmentDAO.java was called with the correct equipment.
-     * **/
     @Test
-    public void updateEquipmentMockTest() {
-        Equipment testEquipment = new Equipment("Testcalibur","@drawables/testIcon",3);
+    public void updateEquipmentTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.updateEquipment(testEquipment);
+                Equipment testEquipment = new Equipment("Testcalibur", "@drawable/testcalibur", 1);
+                equipmentDAO.insert(testEquipment);
+                Equipment retrievedEquipment = repository.getEquipmentByNameOffline("Testcalibur");
+                assertThat(retrievedEquipment.getEquipmentName(), equalTo(testEquipment.getEquipmentName()));
+                retrievedEquipment.setEquipmentName("Infinity Gauntlet");
+                retrievedEquipment.setBitmapName("@drawable/pander.jpg");
+                retrievedEquipment.setBuff(6);
+                equipmentDAO.update(retrievedEquipment);
+                retrievedEquipment = repository.getEquipmentByNameOffline("Infinity Gauntlet");
 
-        try {
-            Thread.sleep(100);
-            verify(mockEquipmentDao).update(testEquipment);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(retrievedEquipment.getEquipmentName(), equalTo("Infinity Gauntlet"));
+                assertThat(testEquipment.getEquipmentName(), equalTo("Testcalibur"));
+
+                assertThat(testEquipment.getBitmapName(), equalTo("@drawable/testcalibur"));
+                assertThat(retrievedEquipment.getBitmapName(), equalTo("@drawable/pander.jpg"));
+
+                assertThat(retrievedEquipment.getBuff(), equalTo(1));
+                assertThat(retrievedEquipment.getBuff(), equalTo(6));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new BattleRecord object and 'inserts' it using the @Mock DAO
-     * then uses Mockito's public {@code verify} function to ensure
-     * that the {@code insert()} in BattleRecordDAO.java was called with the correct BattleRecord.
-     * **/
     @Test
-    public void insertBattleRecordMockTest() {
-        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+    public void insertBattleRecordTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.insertBattleRecord(testRecord);
+                BattleRecord testRecord = new BattleRecord(4, "Chewbacca VS Mewtwo EX", "R P S R P P");
+                battleRecordDAO.insert(testRecord);
+                BattleRecord retrievedRecord = repository.getBattleRecordByTitleOffline("Chewbacca VS Mewtwo EX");
 
-        try {
-            Thread.sleep(100);
-            verify(mockBattleRecordDao).insert(testRecord);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(testRecord.getTitle(), equalTo(retrievedRecord.getTitle()));
+
+                assertThat(testRecord.getDate(), equalTo(retrievedRecord.getDate()));
+            }
+        });
+        executor.shutdown();
     }
 
-    /**
-     * Makes a new BattleRecord object and 'deletes' it using the @Mock DAO
-     * then uses Mockito's public {@code verify} function to ensure
-     * that the {@code delete()} in BattleRecordDAO.java was called with the correct BattleRecord.
-     * **/
     @Test
-    public void deleteBattleRecordMockTest() {
-        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+    public void deleteBattleRecordTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.deleteBattleRecord(testRecord);
+                BattleRecord testRecord = new BattleRecord(4, "Chewbacca VS Mewtwo EX", "R P S R P P");
+                battleRecordDAO.insert(testRecord);
+                battleRecordDAO.delete(testRecord);
+                BattleRecord retrievedRecord = repository.getBattleRecordByTitleOffline("Chewbacca VS Mewtwo EX");
 
-        try {
-            Thread.sleep(100);
-            verify(mockBattleRecordDao).delete(testRecord);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                assertThat(retrievedRecord.getTitle(), equalTo(null));
+            }
+        });
+        executor.shutdown();
     }
-
-    /**
-     * Makes a new BattleRecord object and "updates" it using the @Mock DAO
-     * then uses Mockito's public {@code verify} function to ensure
-     * that the {@code insert()} in BattleRecordDAO.java was called with the correct BattleRecord.
-     * **/
     @Test
-    public void updateBattleRecordMockTest() {
-        BattleRecord testRecord = new BattleRecord(4,"Username VS CPU","R P S S P R P R");
+    public void updateBattleRecordTest() throws InterruptedException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        repository.updateBattleRecord(testRecord);
-
-        try {
-            Thread.sleep(100);
-            verify(mockBattleRecordDao).update(testRecord);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                BattleRecord testRecord = new BattleRecord(4, "Chewbacca VS Mewtwo EX", "R P S R P P");
+                battleRecordDAO.insert(testRecord);
+                BattleRecord retrievedRecord = repository.getBattleRecordByTitleOffline("Chewbacca VS Mewtwo EX");
+                retrievedRecord.setDate(99999999);
+                retrievedRecord.setTitle("Morrigan VS Felicia");
+                battleRecordDAO.update(retrievedRecord);
+                retrievedRecord = repository.getBattleRecordByTitleOffline("Morrigan VS Felicia");
+                assertThat(retrievedRecord.getTitle(), equalTo("Morrigan VS Felicia"));
+                assertThat(retrievedRecord.getDate(), equalTo(99999999));
+            }
+        });
+        executor.shutdown();
     }
+
 
 }

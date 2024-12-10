@@ -37,4 +37,7 @@ public interface UserDAO {
 
     @Query("SELECT * from " + FlailDatabase.USER_TABLE + " WHERE id == :loggedInUserId")
     LiveData<User> getUserByUserId(int loggedInUserId);
+
+    @Query("SELECT * from " + FlailDatabase.USER_TABLE + " WHERE username == :email")
+    User getUserByEmailOffline(String email);
 }

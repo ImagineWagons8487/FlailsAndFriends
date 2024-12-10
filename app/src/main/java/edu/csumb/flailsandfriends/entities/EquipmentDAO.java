@@ -30,6 +30,9 @@ public interface EquipmentDAO {
     void deleteAll();
 
     @Query("SELECT * from " + FlailDatabase.EQUIPMENT_TABLE + " WHERE equipmentName == :equipmentName")
+    Equipment getEquipmentByNameOffline(String equipmentName);
+
+    @Query("SELECT * from " + FlailDatabase.EQUIPMENT_TABLE + " WHERE equipmentName == :equipmentName")
     LiveData<Equipment> getEquipmentByName(String equipmentName);
 
     @Query("SELECT * from " + FlailDatabase.EQUIPMENT_TABLE + " WHERE id == :equipmentId")
