@@ -13,10 +13,10 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".activities.RecordReplayActivity"
+            android:name=".activities.RecordsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.RecordActivity"
+            android:name=".activities.RecordReplayActivity"
             android:exported="false" />
         <activity
             android:name=".activities.PostMatchActivity"

@@ -23,4 +23,6 @@ public class RecordReplayActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    
 }
