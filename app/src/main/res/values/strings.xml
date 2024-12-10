@@ -1,4 +1,10 @@
 <resources>
+    <string name="proceed">Proceed</string>
+    <string name="you_win">You Win!</string>
+    <string name="play_again">Play Again</string>
+    <string name="rematch">Rematch</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="you_lose">You Lose</string>
     <string name="app_name">FlailsAndFriends</string>
     <string name="welcome">Welcome! \n Login or create an account:</string>
     <string name="password">Password</string>
