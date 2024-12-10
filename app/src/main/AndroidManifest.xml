@@ -48,6 +48,9 @@
             android:exported="true" />
         <activity
             android:name=".activities.MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".activities.GameLoopActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
