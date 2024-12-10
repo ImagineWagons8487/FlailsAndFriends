@@ -62,7 +62,7 @@ public class LoadOutActivity extends AppCompatActivity {
         });
     }
 
-    static Intent loadOutActivityIntentFactory(Context context, int userId) {
+    public static Intent loadOutActivityIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, LoadOutActivity.class);
         intent.putExtra(LOADOUT_USER_ID, userId);
         return intent;

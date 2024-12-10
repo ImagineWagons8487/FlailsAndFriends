@@ -182,7 +182,7 @@ public class CombatActivity extends AppCompatActivity {
     }
 
 
-    static Intent combatActivityIntentFactory(Context context) {
+    public static Intent combatActivityIntentFactory(Context context) {
         return new Intent(context, CombatActivity.class);
     }
     }

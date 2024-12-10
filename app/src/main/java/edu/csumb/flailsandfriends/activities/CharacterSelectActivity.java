@@ -45,7 +45,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
         });
     }
 
-    static Intent characterSelectIntentFactory(Context context, int userId){
+    public static Intent characterSelectIntentFactory(Context context, int userId){
         Intent intent = new Intent(context, CharacterSelectActivity.class);
         intent.putExtra(CHARACTER_SELECT_USER_ID, userId);
         return intent;
