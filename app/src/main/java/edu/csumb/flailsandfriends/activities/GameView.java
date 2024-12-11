@@ -10,64 +10,95 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 import edu.csumb.flailsandfriends.R;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    private GameMessageCallback messageCallback;
     private GameThread thread;
     private Paint textPaint;
-    private Paint buttonPaint;
 
     private Bitmap rockBitmap;
     private Bitmap paperBitmap;
     private Bitmap scissorsBitmap;
     private Bitmap backgroundBitmap;
 
-    // Game state
-    private enum GameState {SELECTING, RESULT}
+    private final Rect rockBounds = new Rect();
+    private final Rect paperBounds = new Rect();
+    private final Rect scissorsBounds = new Rect();
 
-    private enum Choice {ROCK, PAPER, SCISSORS, NONE}
+    private static final float BUTTON_SCALE_PRESSED = 0.9f;
+    private static final long PRESS_ANIMATION_DURATION = 150;
 
-    private GameState currentState = GameState.SELECTING;
-    private Choice playerChoice = Choice.NONE;
-    private Choice computerChoice = Choice.NONE;
-    private String resultText = "";
+    private String pressedButton = null;
+    private long pressStartTime = 0;
 
-    // Button regions
-    private Rect rockButton = new Rect();
-    private Rect paperButton = new Rect();
-    private Rect scissorsButton = new Rect();
+
+    private int userScore = 0;
+    private int cpuScore = 0;
+    private boolean roShamBo = true;
+    final private String ROCK = "ROCK";
+    final private String PAPER = "PAPER";
+    final private String SCISSORS = "SCISSORS";
+    final private String[] selections = {ROCK, PAPER, SCISSORS};
+    public String battleLog = "";
+
+    private HashMap<String, String> outcomeMap;
 
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
         setFocusable(true);
 
-        // Initialize paints
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(60);
         textPaint.setTextAlign(Paint.Align.CENTER);
 
-        buttonPaint = new Paint();
-        buttonPaint.setColor(Color.BLUE);
+        outcomeMap = new HashMap<>();
+        outcomeMap.put(PAPER, ROCK);
+        outcomeMap.put(ROCK, SCISSORS);
+        outcomeMap.put(SCISSORS, PAPER);
 
+        userScore = 0;
+        cpuScore = 0;
+
+    }
+
+    public void setMessageCallback(GameMessageCallback callback) {
+        this.messageCallback = callback;
+    }
+
+    private void showMessage(String message) {
+        if (messageCallback != null) {
+            messageCallback.onGameMessage(message);
+        }
     }
 
     private void initializeBitmaps() {
         //loads base bitmaps
-        rockBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.heavy);
-        paperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light);
-        scissorsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dodge);
+        rockBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.rockbutton);
+        paperBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.paperbutton);
+        scissorsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scissorsbutton);
         backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background);
 
         // scales bitmaps
-        rockBitmap = Bitmap.createScaledBitmap(rockBitmap, rockButton.width(), rockButton.height(), true);
-        paperBitmap = Bitmap.createScaledBitmap(paperBitmap, paperButton.width(), paperButton.height(), true);
-        scissorsBitmap = Bitmap.createScaledBitmap(scissorsBitmap, scissorsButton.width(), scissorsButton.height(), true);
+        rockBitmap = Bitmap.createScaledBitmap(rockBitmap, rockBounds.width(), rockBounds.height(), true);
+        paperBitmap = Bitmap.createScaledBitmap(paperBitmap, paperBounds.width(), paperBounds.height(), true);
+        scissorsBitmap = Bitmap.createScaledBitmap(scissorsBitmap, scissorsBounds.width(), scissorsBounds.height(), true);
         backgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap, getWidth(), getHeight(), true);
     }
 
+    /**
+     *  Creates the games thread after the SurfaceView is created
+     * **/
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread = new GameThread(getHolder(), this);
@@ -75,21 +106,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
     }
 
+    /**
+     * Is called after any screen change. Bitmaps are initialized here because
+     * otherwise they don't have size references and return null.
+     * **/
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         cleanup();
 
         int buttonWidth = width / 3;
         int buttonHeight = height / 6;
-        int padding = 50;
+        int padding = 125;
         int y = height - buttonHeight - padding;
 
-        rockButton.set(0, y, buttonWidth, y + buttonHeight);
-        paperButton.set(buttonWidth, y, buttonWidth * 2, y + buttonHeight);
-        scissorsButton.set(buttonWidth * 2, y, width, y + buttonHeight);
+        rockBounds.set(0, y, buttonWidth, y + buttonHeight);
+        paperBounds.set(buttonWidth, y, buttonWidth * 2, y + buttonHeight);
+        scissorsBounds.set(buttonWidth * 2, y, width, y + buttonHeight);
 
         initializeBitmaps();
     }
+
+    /**
+     * Similar to onPause in GameLoopActivity
+     * **/
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -106,73 +145,85 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * This function is called after any touch event. Currently checks
+     * if touch events take place on screen positions corresponding to
+     * buttons and acts accordingly
+     * **/
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            return true;
-        }
-
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        if (currentState == GameState.SELECTING) {
-            if (rockButton.contains(x, y)) {
-                makeChoice(Choice.ROCK);
-            } else if (paperButton.contains(x, y)) {
-                makeChoice(Choice.PAPER);
-            } else if (scissorsButton.contains(x, y)) {
-                makeChoice(Choice.SCISSORS);
+        if (roShamBo) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    if (rockBounds.contains(x, y)) {
+                        pressedButton = ROCK;
+                        pressStartTime = System.currentTimeMillis();
+                    } else if (paperBounds.contains(x, y)) {
+                        pressedButton = PAPER;
+                        pressStartTime = System.currentTimeMillis();
+                    } else if (scissorsBounds.contains(x, y)) {
+                        pressedButton = SCISSORS;
+                        pressStartTime = System.currentTimeMillis();
+                    }
+                    break;
+
+                case MotionEvent.ACTION_UP:
+
+                    if (pressedButton != null) {
+                        if (rockBounds.contains(x, y) && pressedButton.equals(ROCK)) {
+                            shoot(ROCK);
+                        } else if (paperBounds.contains(x, y) && pressedButton.equals(PAPER)) {
+                            shoot(PAPER);
+                        } else if (scissorsBounds.contains(x, y) && pressedButton.equals(SCISSORS)) {
+                            shoot(SCISSORS);
+                        }
+                        pressedButton = null;
+                    }
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+
+                    if (pressedButton != null) {
+                        Rect currentBounds = null;
+                        if (pressedButton.equals(ROCK)) currentBounds = rockBounds;
+                        else if (pressedButton.equals(PAPER)) currentBounds = paperBounds;
+                        else if (pressedButton.equals(SCISSORS)) currentBounds = scissorsBounds;
+
+                        if (currentBounds != null && !currentBounds.contains(x, y)) {
+                            pressedButton = null;
+                        }
+                    }
+                    break;
             }
-        } else if (currentState == GameState.RESULT) {
-            // Reset game on touch during result screen
-            resetGame();
         }
 
         return true;
     }
 
-    private void makeChoice(Choice choice) {
-        playerChoice = choice;
-        computerChoice = getRandomChoice();
-        determineWinner();
-        currentState = GameState.RESULT;
-    }
-
-    private Choice getRandomChoice() {
-        int random = (int) (Math.random() * 3);
-        switch (random) {
-            case 0:
-                return Choice.ROCK;
-            case 1:
-                return Choice.PAPER;
-            default:
-                return Choice.SCISSORS;
+    private void shoot(String selection){
+        String cpuSelection = selections[(int) (Math.random() * 3)];
+        if(Objects.equals(outcomeMap.get(selection), cpuSelection)){
+            userScore++;
+        }else if(Objects.equals(outcomeMap.get(cpuSelection), selection)){
+            cpuScore++;
         }
+        battleLog += " " + selection + cpuSelection;
+        showMessage(String.format("You:%s VS Them:%s", selection, cpuSelection));
+        checkScore();
     }
 
-    private void determineWinner() {
-        if (playerChoice == computerChoice) {
-            resultText = "It's a tie!";
-            return;
+    private void checkScore(){
+        if(userScore == 5 || cpuScore == 5){
+
+            roShamBo = false;
         }
-
-        boolean playerWins =
-                (playerChoice == Choice.ROCK && computerChoice == Choice.SCISSORS) ||
-                        (playerChoice == Choice.PAPER && computerChoice == Choice.ROCK) ||
-                        (playerChoice == Choice.SCISSORS && computerChoice == Choice.PAPER);
-
-        resultText = playerWins ? "You win!" : "Computer wins!";
-    }
-
-    private void resetGame() {
-        currentState = GameState.SELECTING;
-        playerChoice = Choice.NONE;
-        computerChoice = Choice.NONE;
-        resultText = "";
     }
 
     public void update() {
-        // Update game state if needed
     }
 
     public void cleanup() {
@@ -193,46 +244,61 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void render(Canvas canvas) {
         if (canvas != null) {
-
             if (backgroundBitmap != null && !backgroundBitmap.isRecycled()) {
                 canvas.drawBitmap(backgroundBitmap, 0, 0, null);
             } else {
                 canvas.drawColor(Color.BLACK);
             }
 
-            if (currentState == GameState.SELECTING) {
-                // Add null checks for all bitmaps
-                if (rockBitmap != null && !rockBitmap.isRecycled()) {
-                    canvas.drawBitmap(rockBitmap, rockButton.left, rockButton.top, null);
-                }
-                if (paperBitmap != null && !paperBitmap.isRecycled()) {
-                    canvas.drawBitmap(paperBitmap, paperButton.left, paperButton.top, null);
-                }
-                if (scissorsBitmap != null && !scissorsBitmap.isRecycled()) {
-                    canvas.drawBitmap(scissorsBitmap, scissorsButton.left, scissorsButton.top, null);
+            if (roShamBo) {
+                drawButton(canvas, rockBitmap, rockBounds, ROCK, "ROCK");
+                drawButton(canvas, paperBitmap, paperBounds, PAPER, "PAPER");
+                drawButton(canvas, scissorsBitmap, scissorsBounds, SCISSORS, "SCISSORS");
+
+                canvas.drawText(String.format("Your Score: %d CPU Score: %d", userScore, cpuScore), canvas.getWidth() / 2,
+                        rockBounds.top - 100, textPaint);
+            }else{
+                if(userScore == 5){
+                    canvas.drawText(String.format("Your Score: %d You Win!", userScore), canvas.getWidth() / 2,
+                            rockBounds.top - 100, textPaint);
+                }else{
+                    canvas.drawText(String.format("CPU Score: %d You Lose!",cpuScore), canvas.getWidth() / 2,
+                            rockBounds.top - 100, textPaint);
                 }
 
-                // Draw button labels
-                float textY = rockButton.centerY() + rockButton.height();
-                canvas.drawText("ROCK", rockButton.centerX(), textY, textPaint);
-                canvas.drawText("PAPER", paperButton.centerX(), textY, textPaint);
-                canvas.drawText("SCISSORS", scissorsButton.centerX(), textY, textPaint);
-
-                // Draw instructions
-                canvas.drawText("Choose your move!", canvas.getWidth() / 2,
-                        rockButton.top - 100, textPaint);
-            } else {
-                // Rest of your result screen code remains the same
-                int centerX = canvas.getWidth() / 2;
-                int centerY = canvas.getHeight() / 2;
-
-                canvas.drawText("Your choice: " + playerChoice,
-                        centerX, centerY - 200, textPaint);
-                canvas.drawText("Computer's choice: " + computerChoice,
-                        centerX, centerY - 100, textPaint);
-                canvas.drawText(resultText, centerX, centerY, textPaint);
-                canvas.drawText("Tap to play again!", centerX, centerY + 100, textPaint);
             }
+        }
+    }
+
+    private void drawButton(Canvas canvas, Bitmap bitmap, Rect bounds, String buttonType, String label) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            float scale = 1.0f;
+
+            if (buttonType.equals(pressedButton)) {
+                long elapsed = System.currentTimeMillis() - pressStartTime;
+
+                if (elapsed <= PRESS_ANIMATION_DURATION) {
+                    float progress = (float) elapsed / PRESS_ANIMATION_DURATION;
+                    scale = 1.0f - ((1.0f - BUTTON_SCALE_PRESSED) * progress);
+                } else {
+                    scale = BUTTON_SCALE_PRESSED;
+                }
+            }
+
+            int scaledWidth = (int) (bounds.width() * scale);
+            int scaledHeight = (int) (bounds.height() * scale);
+            int offsetX = (bounds.width() - scaledWidth) / 2;
+            int offsetY = (bounds.height() - scaledHeight) / 2;
+
+            Rect drawBounds = new Rect(
+                    bounds.left + offsetX,
+                    bounds.top + offsetY,
+                    bounds.left + offsetX + scaledWidth,
+                    bounds.top + offsetY + scaledHeight
+            );
+
+            canvas.drawBitmap(bitmap, null, drawBounds, null);
+            canvas.drawText(label, bounds.centerX(), bounds.centerY() + bounds.height(), textPaint);
         }
     }
 }
