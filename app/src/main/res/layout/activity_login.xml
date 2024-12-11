@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.csumb.flailsandfriends.activities.LoginActivity">
+    tools:context="edu.csumb.flailsandfriends.activities.LoginActivity"
+    tools:ignore="ExtraText">
 
     <EditText
         android:id="@+id/email_login_edit_text"
@@ -20,7 +21,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/passwordLoginEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBG" />
 
@@ -37,23 +37,22 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_login_edit_text" />
 
+    //Three whole versions, waow
     <ImageButton
         android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_width="426dp"
+        android:layout_height="113dp"
         android:layout_margin="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText"
-        app:srcCompat="@drawable/login_button"
-        />
+        app:srcCompat="@drawable/login_button_v3" />
 
     <ImageView
         android:id="@+id/loginBG"
