@@ -1,6 +1,4 @@
 <resources>
-    <string name="retry">Retry</string>
-    <string name="quit">Quit</string>
     <string name="proceed">Proceed</string>
     <string name="you_win">You Win!</string>
     <string name="play_again">Play Again</string>
