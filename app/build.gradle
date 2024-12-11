@@ -39,6 +39,7 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation libs.junit.junit
 
     // Use JUnit 4.13.2 and exclude hamcrest-core to avoid conflicts
     testImplementation('junit:junit:4.13.2') {
@@ -54,6 +55,8 @@ dependencies {
     androidTestImplementation libs.rules
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    androidTestImplementation 'androidx.test:core:1.6.1'
+
 
     //room database
     def room_version = "2.6.1"
