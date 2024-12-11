@@ -1,5 +1,6 @@
 package edu.csumb.flailsandfriends;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +36,19 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StatisticsViewHolder holder, int position) {
-        // Bind data to the view holder
+        // Get the current BattleRecord
         BattleRecord record = battleRecords.get(position);
+
+        // Log the data being bound
+        Log.d("StatisticsAdapter", "Binding Record - Title: " + record.getTitle() +
+                ", Date: " + record.getDate() + ", Record: " + record.getRecord());
+
+        // Bind the data to views
         holder.titleTextView.setText(record.getTitle());
         holder.dateTextView.setText(String.valueOf(record.getDate()));
         holder.recordTextView.setText(record.getRecord());
     }
+
 
     @Override
     public int getItemCount() {
