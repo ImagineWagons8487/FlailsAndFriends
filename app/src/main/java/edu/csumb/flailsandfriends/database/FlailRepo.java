@@ -30,6 +30,10 @@ public class FlailRepo {
 
     private static FlailRepo repository;
 
+    public LiveData<List<BattleRecord>> getBattleRecords() {
+        return battleRecordDAO.getAllRecords(); // Ensure this DAO method exists and works correctly.
+    }
+
     public FlailRepo(Application application) {
         FlailDatabase db = FlailDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
