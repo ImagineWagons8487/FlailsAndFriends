@@ -19,7 +19,7 @@ import edu.csumb.flailsandfriends.entities.BattleRecord;
 
 public class StatisticsActivity extends AppCompatActivity {
 
-    private RecyclerView statisticsRecyclerView;
+    public RecyclerView statisticsRecyclerView;
     private TextView totalGamesTextView;
     private FlailRepo repository;
 

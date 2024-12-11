@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import org.junit.Before;
+
 import edu.csumb.flailsandfriends.activities.LandingPageActivity;
 import edu.csumb.flailsandfriends.entities.BattleRecord;
 import edu.csumb.flailsandfriends.entities.BattleRecordDAO;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
 
 public class FlailRepo {
 
@@ -60,6 +63,7 @@ public class FlailRepo {
         return null;
     }
 
+    // Database operations for User
     public void insertUser(User... user) {
         FlailDatabase.databaseWriteExecutor.execute(() -> userDAO.insert(user));
     }
@@ -81,6 +85,7 @@ public class FlailRepo {
     public LiveData<User> getUserByUserId(int loggedInUserId) {
         return userDAO.getUserByUserId(loggedInUserId);
     }
+    // Database operations for Equipment
 
     public void insertEquipment(Equipment... equipment) {
         FlailDatabase.databaseWriteExecutor.execute(() -> equipmentDAO.insert(equipment));
@@ -105,7 +110,7 @@ public class FlailRepo {
     public LiveData<List<Equipment>> getEquipmentById(int equipmentId) {
         return equipmentDAO.getEquipmentById(equipmentId);
     }
-
+    // Database operations for BattleRecord
     public void insertBattleRecord(BattleRecord... battleRecord) {
         FlailDatabase.databaseWriteExecutor.execute(() -> battleRecordDAO.insert(battleRecord));
     }

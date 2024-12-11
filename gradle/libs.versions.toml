@@ -16,6 +16,7 @@ robolectric = "4.8.1"
 roomTesting = "2.6.1"
 rules = "1.6.1"
 runner = "1.6.2"
+junitJunit = "4.12"
 
 [libraries]
 core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
@@ -34,6 +35,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
 rules = { module = "androidx.test:rules", version.ref = "rules" }
 runner = { module = "androidx.test:runner", version.ref = "runner" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
