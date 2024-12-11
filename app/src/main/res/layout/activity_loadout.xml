@@ -4,25 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:padding="0dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/back_button" />
-    <!-- Empty space to occupy the top half -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".9" />
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_button" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inventory"
+            android:textSize="40sp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="5dp"
+            />
+    </RelativeLayout>
 
-    <!-- RecyclerView to contain the grid of ImageButtons -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/inventory_background"
+            android:scaleType="fitXY"
+            android:layout_weight=".9"
+            />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight=".8" />
 
 </LinearLayout>

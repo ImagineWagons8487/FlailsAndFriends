@@ -5,8 +5,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0016B18D"
+    android:background="#291E2A"
     tools:context="edu.csumb.flailsandfriends.activities.LandingPageActivity">
+
+
+    <ImageView
+        android:id="@+id/backgoundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/login_background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-48dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -42,13 +52,14 @@
 
     <Button
         android:id="@+id/toAdminScreenButton"
-        android:layout_width="204dp"
-        android:layout_height="165dp"
+        android:layout_width="129dp"
+        android:layout_height="100dp"
         android:text="@string/admin_screen"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
