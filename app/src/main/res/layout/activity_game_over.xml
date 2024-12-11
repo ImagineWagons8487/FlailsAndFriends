@@ -1,41 +1,48 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Game Over Text -->
-    <TextView
-        android:id="@+id/gameOverText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Game Over"
-        android:textSize="36sp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
+    <!-- Background Image for Game Over -->
+    <ImageView
+        android:id="@+id/gameOverImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/game_over"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/retryButton" />
-
-    <!-- Retry Button -->
-    <Button
-        android:id="@+id/retryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Retry"
-        app:layout_constraintTop_toBottomOf="@+id/gameOverText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Retry Button -->
+    <ImageButton
+        android:id="@+id/retryButton"
+        android:layout_width="432dp"
+        android:layout_height="180dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/retry"
+        android:src="@drawable/retry_button"
+        app:layout_constraintBottom_toTopOf="@+id/quitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!-- Quit Button -->
-    <Button
+    <ImageButton
         android:id="@+id/quitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quit"
-        app:layout_constraintTop_toBottomOf="@+id/retryButton"
+        android:src="@drawable/quit_button"
+        android:contentDescription="@string/quit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
