@@ -76,7 +76,7 @@ public class GameLoopActivity extends AppCompatActivity implements GameMessageCa
 
     @Override
     public void onGameEnd(String battleLog) {
-        startActivity(GameOverActivity.gameOverIntentFactory(getApplicationContext(), battleLog));
+        startActivity(GameOverActivity.gameOverIntentFactory(getApplicationContext(), loggedInUserId, battleLog));
     }
 
     @Override

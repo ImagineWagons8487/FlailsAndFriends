@@ -100,7 +100,7 @@ public class ActivityIntentTests {
 
     @Test
     public void gameOverActivityIntentTest(){
-        Intent intent = GameOverActivity.gameOverIntentFactory(context, "testlog");
+        Intent intent = GameOverActivity.gameOverIntentFactory(context, 42069,"testlog");
 
         assertNotNull(intent);
         assertEquals(GameOverActivity.class.getName(), intent.getComponent().getClassName());
