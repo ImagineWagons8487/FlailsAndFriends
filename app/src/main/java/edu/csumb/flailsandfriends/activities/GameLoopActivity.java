@@ -4,27 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import edu.csumb.flailsandfriends.R;
 import edu.csumb.flailsandfriends.database.FlailRepo;
-import edu.csumb.flailsandfriends.databinding.ActivityGameOverBinding;
-import edu.csumb.flailsandfriends.databinding.ActivityLandingPageBinding;
 import edu.csumb.flailsandfriends.entities.User;
 
-public class GameOverActivity extends AppCompatActivity {
-    private static final String GAME_OVER_USER_ID = "edu.csumb.flailsandfriends.GAME_OVER_USER_ID";
-
-    private static final String GAME_OVER_RECORD = "edu.csumb.flailsandfriends.GAME_OVER_RECORD";
+public class GameLoopActivity extends AppCompatActivity implements GameMessageCallback {
+    private static final String GAME_LOOP_USER_ID = "edu.csumb.flailsandfriends.GAME_LOOP_USER_ID";
 
     static final String SAVED_INSTANCE_STATE_USERID_KEY = "edu.csumb.flailsandfriends.SAVED_INSTANCE_STATE_USERID_KEY";
 
@@ -38,15 +38,17 @@ public class GameOverActivity extends AppCompatActivity {
 
     private User user;
 
-    private ActivityGameOverBinding binding;
+    private GameView gameView;
+    private GameThread gameThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityGameOverBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        // Initialize the repository for database interaction
+        gameView = new GameView(this);
+        gameView.setMessageCallback(this);
+        setContentView(gameView);
+
         repository = FlailRepo.getRepository(getApplication());
 
         logInUser(savedInstanceState);
@@ -56,40 +58,65 @@ public class GameOverActivity extends AppCompatActivity {
             startActivity(intent);
         }
         updateSharedPreference();
-
-
-        // Set up button listeners
-        binding.retryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(GameLoopActivity.gameLoopIntentFactory(getApplicationContext(), loggedInUserId));
-            }
-        });
-
-        binding.quitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Quit the game
-                startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), loggedInUserId));
-            }
-        });
-
-        // Example database interaction: Log game over event
-        logGameResult();
     }
 
-    private void logGameResult() {
-        // Example: Log the game over result in the database
-        repository.insertBattleRecord(new edu.csumb.flailsandfriends.entities.BattleRecord(
-                1, "Game Over", "Player lost"
-        ));
+    @Override
+    public void onGameMessage(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        TextView snackbarText = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        snackbarText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        snackbarText.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        snackbarText.setMaxLines(10);
+        snackbarText.setTextSize(16);
+        snackbar.show();
     }
 
-    // Factory method to create an Intent for this activity
-    public static Intent gameOverIntentFactory(Context context, int userId, String battleLog) {
-        Intent intent = new Intent(context, GameOverActivity.class);
-        intent.putExtra(GAME_OVER_RECORD, battleLog);
-        intent.putExtra(GAME_OVER_USER_ID, userId);
+    @Override
+    public void onGameEnd(String battleLog) {
+        startActivity(GameOverActivity.gameOverIntentFactory(getApplicationContext(), loggedInUserId, battleLog));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SurfaceHolder holder = gameView.getHolder();
+        gameThread = new GameThread(holder, gameView);
+        gameThread.setRunning(true);
+        gameThread.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (gameThread != null) {
+            gameThread.setRunning(false);
+            boolean retry = true;
+            while (retry) {
+                try {
+                    gameThread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (gameThread != null) {
+            gameThread.setRunning(false);
+        }
+    }
+
+    public static Intent gameLoopIntentFactory(Context context, int userId){
+        Intent intent = new Intent(context, GameLoopActivity.class);
+        intent.putExtra(GAME_LOOP_USER_ID, userId);
         return intent;
     }
 
@@ -102,7 +129,7 @@ public class GameOverActivity extends AppCompatActivity {
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT){
-            loggedInUserId = getIntent().getIntExtra(GAME_OVER_USER_ID, LOGGED_OUT);
+            loggedInUserId = getIntent().getIntExtra(GAME_LOOP_USER_ID, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT){
             return;
@@ -147,7 +174,7 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     private void showLogoutDialog(){
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameOverActivity.this);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(GameLoopActivity.this);
         final AlertDialog alertDialog = alertBuilder.create();
 
         alertBuilder.setMessage("Logout");
@@ -162,7 +189,7 @@ public class GameOverActivity extends AppCompatActivity {
     private void logout(){
         loggedInUserId = LOGGED_OUT;
         updateSharedPreference();
-        getIntent().putExtra(GAME_OVER_USER_ID, LOGGED_OUT);
+        getIntent().putExtra(GAME_LOOP_USER_ID, LOGGED_OUT);
 
         startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext()));
     }
@@ -174,4 +201,3 @@ public class GameOverActivity extends AppCompatActivity {
         sharedPreferenceEditor.apply();
     }
 }
-
