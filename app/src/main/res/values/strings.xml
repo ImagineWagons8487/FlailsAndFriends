@@ -42,4 +42,5 @@
     <string name="toggle_admin">Toggle Admin</string>
     <string name="retry">Retry</string>
     <string name="quit">Quit</string>
+    <string name="inventory">INVENTORY</string>
 </resources>
