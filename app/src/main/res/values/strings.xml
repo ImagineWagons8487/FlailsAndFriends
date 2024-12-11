@@ -40,4 +40,6 @@
     <string name="add_equipment">Add Equipment</string>
     <string name="admin_screen">Admin Screen</string>
     <string name="toggle_admin">Toggle Admin</string>
+    <string name="retry">Retry</string>
+    <string name="quit">Quit</string>
 </resources>

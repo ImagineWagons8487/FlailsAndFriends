@@ -218,8 +218,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void checkScore(){
         if(userScore == 5 || cpuScore == 5){
-
             roShamBo = false;
+            if (messageCallback != null) {
+                messageCallback.onGameEnd(battleLog);
+            }
         }
     }
 

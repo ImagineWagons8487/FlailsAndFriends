@@ -10,39 +10,41 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.csumb.flailsandfriends.R;
 import edu.csumb.flailsandfriends.database.FlailRepo;
+import edu.csumb.flailsandfriends.databinding.ActivityGameOverBinding;
+import edu.csumb.flailsandfriends.databinding.ActivityLandingPageBinding;
 
 public class GameOverActivity extends AppCompatActivity {
 
     private FlailRepo repository;
 
+    private ActivityGameOverBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_over);
+        binding = ActivityGameOverBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Initialize the repository for database interaction
         repository = FlailRepo.getRepository(getApplication());
 
-        // Find buttons from the layout
-        Button retryButton = findViewById(R.id.retryButton);
-        Button quitButton = findViewById(R.id.quitButton);
 
         // Set up button listeners
-        retryButton.setOnClickListener(new View.OnClickListener() {
+        binding.retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Restart the game (navigate back to CombatActivity)
-                Intent intent = new Intent(GameOverActivity.this, CombatActivity.class);
+                Intent intent = new Intent(GameOverActivity.this, GameLoopActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        quitButton.setOnClickListener(new View.OnClickListener() {
+        binding.quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Quit the game
-                finish();
+                startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), 4));
             }
         });
 
@@ -58,8 +60,10 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     // Factory method to create an Intent for this activity
-    public static Intent gameOverIntentFactory(Context context) {
-        return new Intent(context, GameOverActivity.class);
+    public static Intent gameOverIntentFactory(Context context, String battleLog) {
+        Intent intent = new Intent(context, GameOverActivity.class);
+        intent.putExtra("battleLog", battleLog);
+        return intent;
     }
 }
 

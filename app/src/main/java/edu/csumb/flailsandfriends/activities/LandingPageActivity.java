@@ -55,7 +55,7 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(CombatActivity.combatActivityIntentFactory(getApplicationContext()));
+                startActivity(GameLoopActivity.gameLoopIntentFactory(getApplicationContext(), loggedInUserId));
             }
         });
 

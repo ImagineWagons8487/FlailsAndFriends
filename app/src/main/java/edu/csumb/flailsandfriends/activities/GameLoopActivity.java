@@ -1,5 +1,7 @@
 package edu.csumb.flailsandfriends.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 public class GameLoopActivity extends AppCompatActivity implements GameMessageCallback {
+    private static final String GAME_LOOP_USER_ID = "edu.csumb.flailsandfriends.GAME_LOOP_USER_ID";
+
     private GameView gameView;
     private GameThread gameThread;
 
@@ -37,7 +41,10 @@ public class GameLoopActivity extends AppCompatActivity implements GameMessageCa
         snackbar.show();
     }
 
-
+    @Override
+    public void onGameEnd(String battleLog) {
+        startActivity(GameOverActivity.gameOverIntentFactory(getApplicationContext(), battleLog));
+    }
 
     @Override
     protected void onResume() {
@@ -63,6 +70,7 @@ public class GameLoopActivity extends AppCompatActivity implements GameMessageCa
                 }
             }
         }
+
     }
 
     @Override
@@ -71,5 +79,11 @@ public class GameLoopActivity extends AppCompatActivity implements GameMessageCa
         if (gameThread != null) {
             gameThread.setRunning(false);
         }
+    }
+
+    public static Intent gameLoopIntentFactory(Context context, int userId){
+        Intent intent = new Intent(context, GameLoopActivity.class);
+        intent.putExtra(GAME_LOOP_USER_ID, userId);
+        return intent;
     }
 }
